@@ -1,12 +1,17 @@
-" =========================================================================
-" Sexy plugins for better vimming.
-" NOTE that the name in vam of those plugins sometimes change.
-" Last Change:  2014-01-21 01:59:31
-" =========================================================================
+" #########################################################################
+"  File Info:   LiTuX's personal vim plugin configuration file
+"               Sexy plugins managed by "VAM" for better vimming.
+"
+"  Last Change: 2014-01-25 22:30:23
+"
+"  ReadMe:      Please refer to the vimrc file.
+"               In this file, we use "VAM" for plugin management.
+"               NOTE that the name in vam of those plugins sometimes change.
+" #########################################################################
 
 " Some plugins provide similar functions (completion, snippets et al.),
 " and might have confliction, choose one will be OK.
-let comppets = ['neu']      " snip, ycm, acp, neo, xpt; TODO, neo is slow.
+let comppets = ['neo']      " snip, ycm, acp, neo, xpt; TODO, neo is slow.
 let texengine = 'xelatex'   " or lualatex or pdflatex
 let pdfviewer = 'sumatra'   " or evince or mupdf or AcroRd32
 
@@ -190,7 +195,7 @@ if count(comppets, 'neo')                   " neocomplcache
     " SuperTab like snippets behavior.
     : imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
                 \ "\<Plug>(neosnippet_expand_or_jump)"
-                \ "\<TAB>"
+                \ : "\<TAB>"
                 " \ : pumvisible() ? "\<C-n>" : "\<TAB>"
     : smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
                 \ "\<Plug>(neosnippet_expand_or_jump)"
@@ -206,6 +211,7 @@ let addons += ['vim-snippets']              " honza/vim-snippets
 let addons += ['vim-misc']                  " dependence of easytags
 let addons += ['shell']                     " xolox/vim-shell
 let addons += ['easytags']                  " xolox/vim-easytags
+" : let g:easytags_file='~/.vim/tags-$USER'
 let addons += ['code_complete']             " mbbill/code_complete
 : let g:rs='<+'
 : let g:re='+>'
@@ -223,7 +229,7 @@ let addons += ['OmniCppComplete']           " script #1520
 : let OmniCpp_MayCompleteScope = 1          " autocomplete after ::
 : let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
-" ################################################################
+" #########################################################################
 " Programing
 " let addons += ['project.tar.gz']          " don't know which is better
 let addons += ['Syntastic']                 " scrooloose/syntastic
@@ -256,7 +262,7 @@ let addons += ['LaTeX-Suite_aka_Vim-LaTeX'] " vim-latex.sf.net
 " : endif
 
 
-" ################################################################
+" #########################################################################
 " Finally
 call vam#ActivateAddons(addons, {'auto_install': 0})
 

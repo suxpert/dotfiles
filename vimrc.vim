@@ -1,66 +1,150 @@
-" #################################################################
-"  vimrc by LiTuX.
-"  Last Change: 2014-01-20 18:24:56
-" #################################################################
+" #########################################################################
+"  File Info:   LiTuX's personal vimrc file
+"  Last Change: 2014-01-25 22:29:12
 "
+"  ReadMe:      This is my personal vimrc for daily use, some of those
+"               configurations are still not adjusted, and MAY be changed
+"               anytime if I find a better one for me.
+"
+"               So, if you wanna use this file as YOUR vimrc,
+"               "use at your own risk", ^_^
+"
+"               However, this vimrc was supposed to be something like the
+"               well known "spf13" vimrc, although it is not at least now.
+"               So I'm trying to made it as clearly as possible,
+"               *in case* someone want to know some details of this vimrc.
+"               But, remember, NEVER use a config file that you don't know
+"               what it did if it is not the default.
+"               If you want to use it, please READ THE SOURCE, you'd better
+"               understand every line in this file to use it.
+"
+"               BTW, most plugins are configured in another script file.
+"               Read section "Plugins" for details.
+" #########################################################################
+
+" # Common settings {{{
 set nocompatible
-
-" set ambiwidth=double
-set fencs=ucs-bom,utf8,cp936,gb18030,big5,euc-jp,euc-kr,default,latin1
-
-" Always use English menu && messages TODO
-set langmenu=en_US
-lang messages en_US
+" set language at the beginning to prevent garbled messages.
+" Always use English messages.
+try
+    silent lang messages en_US.utf8     " Work on my Linux/MSYS2, Windows.
+catch " catch all
+    try
+        silent lang messages en_US.ISO_8859-1
+    catch " catch all
+        lang messages C                 " If all failed, use C.
+    endtry
+endtry
 
 " Encoding && language: TODO
 if has("win32") || has("win64")
-    set tenc=chinese
-    if has("gui_running")
-        set enc=utf-8
-        " set langmenu=zh_cn.utf-8
-        source $VIMRUNTIME/delmenu.vim
-        source $VIMRUNTIME/menu.vim
-        " language messages zh_cn.utf-8
-    else
-        set enc=chinese
-        " language messages en
+    lang English                        " don't have 'en_US'
+    set tenc=chinese                    " cp936
+    if !has("gui_running")
+        set enc=chinese                 " windows console version
     endif
-" elseif has("win32unix")
-    " set enc=utf8
-    " set tenc=chinese
-else
-    set enc=utf8
+else                                    " For Linux, cygwin/MSYS:
+    lang en_US.utf8
+    set enc=utf8                        " NOTE cygwin/MSYS *can* be cp936
 endif
 
-" Font settings et al.
+set fencs=ucs-bom,utf8,cp936,gb18030,big5,euc-jp,euc-kr,default,latin1
+" set ambiwidth=double
+
+" Fonts et al.
 if has("gui_running")
+    set enc=utf8                        " GUI always use utf-8
+    source $VIMRUNTIME/delmenu.vim      " Refresh menu
+    source $VIMRUNTIME/menu.vim
     if has("gui_gtk2")
         " set gfn=Lucida\ Sans\ Typwriter\ 11,DejaVu\ Sans\ Mono\ 11,Monospace\ 11
-        set gfn=DejaVu\ Sans\ Mono\ 11,Monospace\ 11
-        set gfw=WenQuanYi\ Micro\ Hei\ 12,WenQuanYi\ Zen\ Hei\ 12 " , Microsoft\ Yahei\ 11
-    elseif has("x11")    " Also for GTK 1
+        set gfn=DejaVu\ Sans\ Mono\ 12,Monospace\ 12
+        set gfw=WenQuanYi\ Micro\ Hei\ 12,WenQuanYi\ Zen\ Hei\ 12 " Microsoft\ Yahei\ 11
+    elseif has("x11")                   " Also for GTK1, TODO
         set gfn=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
     elseif has("gui_win32")
         set gfn=LucidaMonoEF:h12,Lucida_Sans_Typwriter:h11,monaco:h11,DejaVu_Sans_Mono:h11,Consolas:h11,Fixedsys:h12
-        set gfw=YouYuan:h12,NSimSun:h12
+        set gfw=YouYuan:h12,NSimSun:h12 " YouYuan lacks lots of glyphs.
     endif
-else
-    set background=dark
+else                                    " for console version
     if &term == 'xterm' || &term == 'screen'
         set t_Co=256
     endif
 endif
 
-" Map from vimrc_example:
-map Q gq
-set number
-set relativenumber
 let mapleader=','
 
-if exists("g:vimrc_local_loaded")
-    finish
+set background=dark
+set number
+set relativenumber
+set display+=lastline
+set modeline
+set history=500
+" set linebreak                     " don't break word. (conflict with list)
+" set list                          " We use syntax highlight for spaces
+" set listchars=tab:\|-,trail:-     " Highlight problematic whitespace
+" set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+set ruler
+" set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
+set showcmd
+set noshowmatch                     " do not jump cursor
+scriptencoding utf-8
+set matchpairs+=‘:’,“:”,（:）,【:】,《:》   " Match, to be used with %,
+scriptencoding
+set mouse=a
+set mousehide
+set viewoptions=folds,options,cursor,unix,slash " *nix/windows compatible
+
+if has('statusline')
+    set laststatus=2            " Use airline for statusline.
+    " Broken down into easily include-able segments
+    " set statusline=%<%f\                     " Filename
+    " set statusline+=%w%h%m%r                 " Options
+    " set statusline+=%{vimcaps#statusline(1)}
+    " set statusline+=%{fugitive#statusline()} " Git Hotness
+    " set statusline+=\ [%{&ff}/%Y]            " Filetype
+    " set statusline+=\ [%{getcwd()}]          " Current dir
+    " set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 endif
-let g:vimrc_local_loaded = 1
+
+" set nowrap                    " Wrap long lines
+" set scrolljump=1              " smooth scroll
+set scrolloff=1
+set foldenable                  " Auto fold code
+set foldlevel=100
+
+set autoindent
+set smartindent
+set expandtab                   " Tabs are spaces, not tabs
+set shiftwidth=4                " Use indents of 4 spaces
+set tabstop=4                   " An indentation every four columns
+set softtabstop=4               " Let backspace delete indent
+set backspace=indent,eol,start  " Backspace for dummies
+set nojoinspaces
+set splitright
+" set splitbelow
+
+" set winminheight=0            " Windows can be 0 line high
+" set linespace=0               " No extra spaces between rows
+set incsearch                   " Find as you type search
+set hlsearch                    " Highlight search terms
+set ignorecase                  " Case insensitive search
+set smartcase                   " Case sensitive when uc present
+set wildmenu                    " Show list instead of completing
+set wildmode=list:longest,full  " Command <Tab> completion
+                                " list matches, then longest common, then all.
+set whichwrap=b,s,<,>,[,]       " Backspace and cursor keys wrap too
+
+set suffixes=.bak,~,.o,.h,.info,.swp,.obj,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.pdf,.un~
+set wildignore+=*.o,*.obj,*.swp,*.bak,*~
+
+
+" # Common end }}}
+
+" if exists("g:vimrc_local_loaded")
+"     finish
+" endif
+" let g:vimrc_local_loaded = 1
 
 if isdirectory(expand('~/.vim'))            " use ~/.vim by default.
     let localrtp='~/.vim/'
@@ -69,8 +153,9 @@ elseif isdirectory(expand("~/vimfiles"))
 endif
 exec "set viminfo+=n".localrtp."viminfo"
 
-let manager = "vam"    " pathogen or vundle or vam, I prefer vam XD
-" #################################################################
+let manager = "vam"    " pathogen or vundle or vam, I prefer vam
+" # Plugins: {{{
+" #########################################################################
 if manager == "vundle"
     " TODO, auto install vundle if not exist.
     " set up vundle environment
@@ -84,10 +169,9 @@ if manager == "vundle"
     if filereadable(expand(localrtp).'vimrc.vundle.vim')
         execute "source ".localrtp.'vimrc.vundle.vim'
     endif
-" #################################################################
+" #########################################################################
 elseif manager == "vam"
-    " TODO, auto install vam if not exist.
-    let addon_dir = localrtp.'addons/'
+    let addon_dir = localrtp.'addons/'      " addons go here
     if !isdirectory(expand(addon_dir))
         call mkdir(expand(addon_dir))
     endif
@@ -95,88 +179,31 @@ elseif manager == "vam"
     if !isdirectory(expand(vam_dir))
         if executable('git')
             exec '!git clone https://github.com/MarcWeber/vim-addon-manager.git '.expand(vam_dir)
-        else " TODO
+        else " TODO: if failed, we should break or try another way.
             echo 'Auto install failed, please install vam manually to '.expand(vam_dir)
         endif
     endif
     exec 'set rtp+='.expand(vam_dir)
     call vam#ActivateAddons(['github:MarcWeber/vim-addon-manager'])
-    " call vam#ActivateAddons([''])             " for plugin test.
-    if filereadable(expand(localrtp).'vimrc.vam.vim')
+    let loadPlugin = 1
+    " let loadPlugin = 0 | call vam#ActivateAddons([''])    " test plugin .
+    if loadPlugin == 1 && filereadable(expand(localrtp).'vimrc.vam.vim')
         execute "source ".localrtp.'vimrc.vam.vim'
     endif
-" #################################################################
+" #########################################################################
 elseif manager == "pathogen"
     exec 'set rtp+='.localrtp.'pathogen'
     call pathogen#infect()
 endif
+" Plugin end }}}
 
 filetype plugin indent on
 
-set display+=lastline
-set modeline
-set history=500
-" set linebreak                 " don't break a word. (conflict with list)
-" set list                      " We use syntax highlight for spaces
-" set listchars=tab:\|-,trail:-   " Highlight problematic whitespace
-" set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
-set ruler
-" set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
-set showcmd
-set noshowmatch                 " do not jump cursor
-scriptencoding utf-8
-set matchpairs+=‘:’,“:”,（:）,【:】,《:》   " <:> Match, to be used with %,
-scriptencoding
-set mouse=a
-set mousehide
-set viewoptions=folds,options,cursor,unix,slash " *nix/windows compatible
 
-if has('statusline')
-    set laststatus=2            " Use airline for statusline.
-    " Broken down into easily include-able segments
-    " set statusline=%<%f\                     " Filename
-    " set statusline+=%w%h%m%r                 " Options
-    " set statusline+=%{fugitive#statusline()} " Git Hotness
-    " set statusline+=\ [%{&ff}/%Y]            " Filetype
-    " set statusline+=\ [%{getcwd()}]          " Current dir
-    " set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-endif
-
-" set nowrap                    " Wrap long lines
-" set scrolljump=5
-set scrolloff=1
-set foldenable                  " Auto fold code
-set foldlevel=100
-
-set autoindent
-set smartindent
-set shiftwidth=4                " Use indents of 4 spaces
-set expandtab                   " Tabs are spaces, not tabs
-set tabstop=4                   " An indentation every four columns
-set softtabstop=4               " Let backspace delete indent
-set backspace=indent,eol,start  " Backspace for dummies
-set nojoinspaces
-set splitright
-set splitbelow
-
-" set winminheight=0            " Windows can be 0 line high
-" set linespace=0               " No extra spaces between rows
-set incsearch                   " Find as you type search
-set hlsearch                    " Highlight search terms
-set ignorecase                  " Case insensitive search
-set smartcase                   " Case sensitive when uc present
-set wildmenu                    " Show list instead of completing
-set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-set whichwrap=b,s,<,>,[,]       " Backspace and cursor keys wrap too
-
-set suffixes=.bak,~,.o,.h,.info,.swp,.obj,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.pdf,.un~
-set wildignore+=*.o,*.obj,*.swp,*.bak,*~
-
-
-" #################################################################
-function ToDesktop()
+" #########################################################################
+function! ToDesktop()
     if has('win32') || has('win64') || has('win32unix')
-        let regsz = system(' reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v Desktop ')
+        let regsz = system('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v Desktop')
         let desktop = split(regsz)[-1]
     elseif executable('xdg-user-dir')
         let desktop = system('xdg-user-dir DESKTOP')
@@ -195,7 +222,7 @@ function! LastModified()
     let save_cursor = getpos(".")
     let n = min([20, line("$")])
     keepjumps exe '1,' . n . 's#^\(.\{,10}Last \%(Modified\|Change\):\s*\).*#\1' . strftime('%Y-%m-%d %H:%M:%S') . '#e'
-    call histdel('search', -1)
+    call histdel('search', -1)      " Can we delete this in undo?
     call setpos('.', save_cursor)
   endif
 endfun
@@ -227,9 +254,11 @@ function! HighListing()
     " seems don't work. - -b
     let lsts = '\\begin{lstlisting}'
     let lste = '\\end{lstlisting}'
+    call TextEnableCodeSnip('c', lsts.'\[.*language=.*\<C,\]', lste, 'SpecialComment')
     call TextEnableCodeSnip('c', lsts, lste, 'SpecialComment')
 endfunction
 
+" Autocmd {{{
 augroup vimrcEx
 au!
 autocmd Colorscheme,Syntax *
@@ -242,7 +271,7 @@ autocmd Colorscheme,Syntax *
 autocmd InsertEnter * set norelativenumber " noimd
 autocmd InsertLeave * set relativenumber " imd
 autocmd BufWritePre * call LastModified()
-autocmd FileType tex call HighListing()
+" autocmd FileType tex call HighListing()       " does not work?
 autocmd FileType text setlocal textwidth=76 cc=+2
 if has("autocmd") && exists("+omnifunc")
     autocmd FileType *
@@ -257,6 +286,7 @@ autocmd BufReadPost *
 autocmd BufRead *.nfo set nonu nornu ambw=single gfn=consolas:h8
 autocmd VimEnter * set imi=0              " TODO: need a better way.
 augroup END
+" Autocmd end }}}
 
 if !exists(":DiffOrig")
     command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
@@ -285,6 +315,8 @@ if has('multi_byte_ime')
     highlight CursorIM guifg=NONE guibg=Magenta
 endif
 
+" Map {{{
+map Q gq
 nnoremap Y y$
 inoremap <C-U> <C-G>u<C-U>
 nmap <F2> :update<CR>
@@ -300,5 +332,6 @@ cmap `g. lcd %:p:h<CR>:pwd<CR>
 cmap `gd call ToDesktop()<CR>:pwd<CR>
 cmap `gh lcd ~<CR>:pwd<CR>
 " map <F12> :!ctags -R --c++-kinds=+p --fields=+ials --extra=+q .<CR>
-" #################################################################
+" Map end }}}
+" #########################################################################
 
