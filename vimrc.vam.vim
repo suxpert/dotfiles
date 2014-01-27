@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "VAM" for better vimming.
 "
-"  Last Change: 2014-01-25 22:30:23
+"  Last Change: 2014-01-27 15:07:24
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -128,6 +128,15 @@ let addons += ['ctrlp-funky']               " tacahiroy/ctrlp-funky
 : nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
 let addons += ['vim-airline']               " bling/vim-airline
+" : let g:airline_section_warning = '%{vimcaps#statusline(1)}'
+: scriptencoding utf8
+" : let g:airline_left_sep = '»' '▶'
+" : let g:airline_right_sep = '«' '◀'
+: let g:airline_symbols = {}
+" : let g:airline_symbols.branch = '⎇'
+" : let g:airline_symbols.paste = 'ρ' 'Þ' '∥'
+: let g:airline_symbols.whitespace = 'Ξ'
+scriptencoding
 
 let addons += ['Solarized']                 " altercation/--solarized
 let addons += ['molokai']                   " tomasr/molokai, slant
@@ -185,6 +194,8 @@ if count(comppets, 'neo')                   " neocomplcache
         " : let g:neocomplcache_enable_underbar_completion = 1
     endif
     let addons += ['neosnippet']            " Shougo/neosnippet
+    " let addons += ['neosnippet-snippets'] " Shougo/neosnippet-snippets
+    " : let g:neosnippet#disable_runtime_snippets = 1
     : let g:neosnippet#enable_snipmate_compatibility = 1
     : let g:neosnippet#snippets_directory='~/.vim/addons/vim-snippets/snippets/'
     " Plugin key-mappings.

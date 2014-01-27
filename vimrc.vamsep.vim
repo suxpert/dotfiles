@@ -1,12 +1,13 @@
 " #########################################################################
 "  File Info:   LiTuX's personal vim plugin configuration file
-"               Sexy plugins managed by "vundle" for better vimming.
+"               Sexy plugins managed by "VAM" for better vimming.
+"               Plugins are loaded separately.
 "
-"  Last Change: 2014-01-27 15:01:05
+"  Last Change: 2014-01-27 15:08:01
 "
 "  ReadMe:      Please refer to the vimrc file.
-"               In this file, we use "vundle" for plugin management.
-"               This file is not tested! (I'm using vam)
+"               In this file, we use "VAM" for plugin management.
+"               NOTE that the name in vam of those plugins sometimes change.
 " #########################################################################
 
 " Some plugins provide similar functions (completion, snippets et al.),
@@ -18,25 +19,25 @@ let pdfviewer = 'sumatra'   " or evince or mupdf or AcroRd32
 
 " #########################################################################
 " Universal
-Bundle 'suxpert/vimcaps'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-fugitive'
-Bundle 'matchit.zip'
-Bundle 'LargeFile'
+ActivateAddons github:suxpert/vimcaps       " my vimcaps plugin
+ActivateAddons surround                     " tpope/vim-surround
+ActivateAddons abolish                   " tpope/vim-abolish
+ActivateAddons unimpaired                " tpope/vim-unimpaired
+ActivateAddons commentary                " tpope/vim-commentary
+ActivateAddons repeat                    " tpope/vim-repeat
+ActivateAddons fugitive                  " tpope/vim-fugitive
+ActivateAddons matchit.zip
+ActivateAddons LargeFile
 " matchparen++, there's a bug in this plugin about ruler length...
-Bundle 'matchparen'
-" Bundle 'hlissner/vim-multiedit'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'Lokaltog/vim-easymotion'
+ActivateAddons matchparen
+" ActivateAddons vim-multiedit           " hlissner/vim-multiedit
+ActivateAddons vim-multiple-cursors      " terryma/...
+ActivateAddons EasyMotion                " Lokaltog/vim-easymotion
 " : let g:EasyMotion_leader_key=','         " default is <leader><leader>
-" Bundle 'oblitum/rainbow'                  " fork of luoChen's, too slow
+" ActivateAddons github:oblitum/rainbow  " fork of luoChen's, too slow
 " : let g:rainbow_active = 1
 " : let g:rainbow_operators = 1
-Bundle 'luochen1990/rainbow'
+ActivateAddons Rainbow_Parentheses_Improved  " luochen1990/rainbow, #4176
 : let g:rainbow_active = 1
 " GUI usually can use any color, so we devide a color circle into parts:
 " 5-based circle, use order: 24130(mod 5); for 6-based, use 241-530(mod 6)
@@ -113,20 +114,20 @@ Bundle 'luochen1990/rainbow'
 \       ] + zhpairs,
 \   }
 
-Bundle ['DirDiff']                   " script #102
-Bundle 'scrooloose/nerdtree'
-Bundle 'kien/ctrlp.vim'
+ActivateAddons DirDiff                   " script #102
+ActivateAddons The_NERD_tree             " scrooloose/nerdtree
+ActivateAddons ctrlp                     " kien/ctrlp.vim
 : let g:ctrlp_cache_dir = '~/.vim/.cache/ctrlp'
 : let g:ctrlp_map = '<c-p>'
 : let g:ctrlp_cmd = 'CtrlP'
 : let g:ctrlp_working_path_mode = 'ra'
 : let g:ctrlp_extensions = ['funky']
-Bundle 'tacahiroy/ctrlp-funky'
+ActivateAddons ctrlp-funky               " tacahiroy/ctrlp-funky
 : nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 : nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
-Bundle 'bling/vim-airline'
+ActivateAddons vim-airline               " bling/vim-airline
 " : let g:airline_section_warning = '%{vimcaps#statusline(1)}'
 : scriptencoding utf8
 " : let g:airline_left_sep = '»' '▶'
@@ -137,43 +138,43 @@ Bundle 'bling/vim-airline'
 : let g:airline_symbols.whitespace = 'Ξ'
 scriptencoding
 
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tomasr/molokai'
-" Bundle 'lsdr/monokai'
+ActivateAddons Solarized                 " altercation/--solarized
+ActivateAddons molokai                   " tomasr/molokai, slant
+" ActivateAddons monokai                 " lsdr/monokai, not good
 
 " #########################################################################
 " Completion, NOTE there are conflictions between those plugins.
-" Bundle 'ervandew/supertab'
+" ActivateAddons SuperTab                " ervandew/supertab
 
 if count(comppets, 'snip')                  " snipmate-like
     if has('python') || has('python3')
-        " Bundle 'SirVer/ultisnips'
-        Bundle 'MarcWeber/ultisnips'
+        " ActivateAddons UltiSnips       " LaunchPad: SirVer/ultisnips
+        ActivateAddons github:MarcWeber/ultisnips
         : let g:UltiSnipsJumpForwardTrigger="<tab>"
         : let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
     else
-        " Bundle 'MarcWeber/snipmate.vim'
-        Bundle 'garbas/vim-snipmate'
+        " ActivateAddons snipmate        " MarcWeber, VAM messed them up
+        ActivateAddons snipMate          " garbas/vim-snipmate
     endif
 endif
 if count(comppets, 'ycm')                   " YouCompleteMe
     if has('python') && executable('clang') " TODO
-        Bundle 'Valloric/YouCompleteMe'
+        ActivateAddons YouCompleteMe     " Valloric/YouCompleteMe
     endif
 endif
 if count(comppets, 'acp')                   " AutoComplPop
-    " Bundle 'L9'                  " dependence of AutoComplPop?
-    Bundle 'ms9tks/vim-autocomplpop'
+    " ActivateAddons L9                  " dependence of AutoComplPop?
+    ActivateAddons AutoComplPop          " ms9tks/vim-autocomplpop
 endif
 if count(comppets, 'neo')                   " neocomplcache
     if has('lua')
-        Bundle 'Shougo/neocomplete.vim'
+        ActivateAddons neocomplete       " Shougo/neocomplete.vim
         : let g:neocomplete#enable_at_startup = 1
         : let g:neocomplete#enable_smart_case = 1
         : let g:neocomplete#sources#syntax#min_keyword_length = 3
         : let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
     else
-        Bundle 'Shougo/neocomplcache.vim'
+        ActivateAddons neocomplcache     " Shougo/neocomplcache.vim
         " It makes vim much slower.
         : let g:neocomplcache_max_list = 20
         : let g:neocomplcache_disable_auto_complete = 1
@@ -192,9 +193,9 @@ if count(comppets, 'neo')                   " neocomplcache
         " : let g:neocomplcache_enable_camel_case_completion = 1
         " : let g:neocomplcache_enable_underbar_completion = 1
     endif
-    Bundle 'Shougo/neosnippet'
-    " Bundle 'Shougo/neosnippet-snippets'
-    " : let g:neosnippet#desable_runtime_snippets = 1
+    ActivateAddons neosnippet            " Shougo/neosnippet
+    " ActivateAddons neosnippet-snippets " Shougo/neosnippet-snippets
+    " : let g:neosnippet#disable_runtime_snippets = 1
     : let g:neosnippet#enable_snipmate_compatibility = 1
     : let g:neosnippet#snippets_directory='~/.vim/addons/vim-snippets/snippets/'
     " Plugin key-mappings.
@@ -212,23 +213,23 @@ if count(comppets, 'neo')                   " neocomplcache
                 \ : "\<TAB>"
 endif
 if count(comppets, 'xpt')                   " xptemplate
-    Bundle 'drmingdrmer/xptemplate'
+    ActivateAddons xptemplate            " drmingdrmer/xptemplate
 endif
 " ##### More snippets ############################################
-Bundle 'honza/vim-snippets'
+ActivateAddons vim-snippets              " honza/vim-snippets
 
 " C-function complete using ctags.
-Bundle 'xolox/vim-misc'                  " dependence of easytags
-Bundle 'xolox/vim-shell'
-Bundle 'xolox/vim-easytags'
+ActivateAddons vim-misc                  " dependence of easytags
+ActivateAddons shell                     " xolox/vim-shell
+ActivateAddons easytags                  " xolox/vim-easytags
 " : let g:easytags_file='~/.vim/tags-$USER'
-Bundle 'mbbill/code_complete'
+ActivateAddons code_complete             " mbbill/code_complete
 : let g:rs='<+'
 : let g:re='+>'
 : let g:completekey='<C-B>'                 " should use superTab.
 
 " C-member complete using ctags.
-Bundle 'OmniCppComplete'           " script #1520
+ActivateAddons OmniCppComplete           " script #1520
 " au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 : let OmniCpp_NamespaceSearch = 1
 : let OmniCpp_GlobalScopeSearch = 1
@@ -241,25 +242,26 @@ Bundle 'OmniCppComplete'           " script #1520
 
 " #########################################################################
 " Programing
-" Bundle 'project.tar.gz'          " don't know which is better
-Bundle 'scrooloose/syntastic'
-Bundle 'a'                         " script #31
+" ActivateAddons project.tar.gz          " don't know which is better
+ActivateAddons Syntastic                 " scrooloose/syntastic
+ActivateAddons a                         " script #31
 
-Bundle 'DoxygenToolkit'            " script #987
+ActivateAddons DoxygenToolkit            " script #987
 
-" Bundle 'scrooloose/nerdcommenter'
+" ActivateAddons The_NERD_Commenter      " scrooloose/nerdcommenter
 
 " html/js/css
-Bundle 'mattn/emmet-vim'
-Bundle 'chrisbra/color_hightlight'
+ActivateAddons Emmet                     " mattn/emmet-vim
+ActivateAddons Colorizer                 " chrisbra/color_hightlight
 : let g:colorizer_auto_filetype="css,html,xhtml"
 : let g:colorizer_colornames=1
-" Bundle 'lilydjwg/colorizer'
-Bundle 'gregsexton/MatchTag'
-Bundle 'jsbeautify'                " script #2727
+" ActivateAddons colorizer               " lilydjwg/colorizer
+ActivateAddons MatchTag                  " gregsexton/MatchTag
+" ActivateAddons MatchTagAlways          " a modified version
+ActivateAddons jsbeautify                " script #2727
 
 " LaTeX editing
-Bundle 'LaTeX-Suite_aka_Vim-LaTeX' " vim-latex.sf.net TODO
+ActivateAddons LaTeX-Suite_aka_Vim-LaTeX " vim-latex.sf.net
 : let g:tex_flavor=texengine
 : let g:Tex_MultipleCompileFormats='pdf'
 : let g:Tex_DefaultTargetFormat='pdf'
@@ -269,4 +271,9 @@ Bundle 'LaTeX-Suite_aka_Vim-LaTeX' " vim-latex.sf.net TODO
 " : if has('win32') || has('win64')
 " :     set shellslash                      " will break vam, git...
 " : endif
+
+
+" #########################################################################
+" Finally
+" call vam#ActivateAddons(addons, {'auto_install': 0})
 

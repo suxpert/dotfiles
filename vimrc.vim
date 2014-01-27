@@ -1,6 +1,6 @@
 " #########################################################################
 "  File Info:   LiTuX's personal vimrc file
-"  Last Change: 2014-01-25 22:29:12
+"  Last Change: 2014-01-27 14:27:58
 "
 "  ReadMe:      This is my personal vimrc for daily use, some of those
 "               configurations are still not adjusted, and MAY be changed
