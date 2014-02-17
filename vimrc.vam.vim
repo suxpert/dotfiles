@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "VAM" for better vimming.
 "
-"  Last Change: 2014-01-27 15:07:24
+"  Last Change: 2014-02-17 20:44:07
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -95,7 +95,7 @@ let addons += ['Rainbow_Parentheses_Improved']  " luochen1990/rainbow, #4176
 \   }
 : let g:rainbow_conf.separately['vim'] = {
 \   'parentheses': [
-\       ['\<fu\%[nction][!]\{,1}\s\+.*)', '\<endf\%[unction]\>'],
+\       ['\<fu\%[nction][!]\{,1}\ze\s\+.*)', '\<endf\%[unction]\>'],
 \       ['\<for\>', '\<endfo\%[r]\>'],
 \       ['\<wh\%[ile]\>', '\<endw\%[hile]\>'],
 \       ['\<if\>', '_\<elsei\%[f]\>\|\<el\%[se]\>_', '\<en\%[dif]\>'],
@@ -222,7 +222,22 @@ let addons += ['vim-snippets']              " honza/vim-snippets
 let addons += ['vim-misc']                  " dependence of easytags
 let addons += ['shell']                     " xolox/vim-shell
 let addons += ['easytags']                  " xolox/vim-easytags
-" : let g:easytags_file='~/.vim/tags-$USER'
+: let g:easytags_auto_highlight = 0         " Makes movement slow
+: let g:easytags_dynamic_files = 1
+: let g:easytags_include_members = 1
+: let g:easytags_events = ['BufWritePost']
+if has("win32") || has("win64") || has("win32unix")
+: let g:easytags_file=expand('~/.vim/$USERNAME.tags')
+else
+: let g:easytags_file=expand('~/.vim/$USER.tags')   " sudo issue.
+endif
+" let addons += ['TagHighlight']              " hg:abudden/taghighlight
+let addons += ['undotree']                  " mbbill/undotree
+" let addons += ['github:mbbill/fencview']
+" : let g:fencview_autodetect = 1
+let addons += ['echofunc']                  " mbbill/echofunc
+: let g:EchoFuncPathMappingEnabled = 7
+: let g:EchoFuncAutoStartBalloonDeclaration = 1
 let addons += ['code_complete']             " mbbill/code_complete
 : let g:rs='<+'
 : let g:re='+>'

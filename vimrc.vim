@@ -1,6 +1,6 @@
 " #########################################################################
 "  File Info:   LiTuX's personal vimrc file
-"  Last Change: 2014-01-27 14:27:58
+"  Last Change: 2014-02-17 00:47:01
 "
 "  ReadMe:      This is my personal vimrc for daily use, some of those
 "               configurations are still not adjusted, and MAY be changed
@@ -293,6 +293,7 @@ if !exists(":DiffOrig")
     \ | wincmd p | diffthis
 endif
 
+set swapfile
 if has("persistent_undo")
     " set undodir=tmp
     " let &undodir=localrtp."tmp"
@@ -315,6 +316,45 @@ if has('multi_byte_ime')
     highlight CursorIM guifg=NONE guibg=Magenta
 endif
 
+set tags=./tags;,./.tags;,tags,.tags,~/.tags
+
+let usetags = ['tcc64']
+if has("win32") || has("win64")
+    if count(usetags, 'tcc64')
+        set tags+=D:\Apps\PortableGit\tcc64\include\tags
+    endif
+    if count(usetags, 'tcc32')
+        set tags+=D:\Apps\PortableGit\tcc32\include\tags
+    endif
+    if count(usetags, 'cl')     " - =
+        set tags+=D:\Apps\Microsoft\\\ Visual\\\ Studio\\\ 12.0\VC\include\tags
+        set tags+= C:\Program\\\ Files\\\ (x86)\Windows\\\ Kits\*\include\tags
+    endif
+    if count(usetags, 'gcc64')  " too large thus slow
+        set tags+= D:\Apps\MSYS2x64\mingw64\x86_64-w64-mingw32\include\tags
+    endif
+    if count(usetags, 'gcc32')  " too large
+        set tags+= D:\Apps\MSYS2x64\mingw32\i686-w64-mingw32\include\tags
+    endif
+elseif has("win32unix")
+    if count(usetags, 'tcc64')
+        set tags+=/tcc64/include/tags
+    endif
+    if count(usetags, 'tcc32')
+        set tags+=/tcc32/include/tags
+    endif
+    if count(usetags, 'cl')
+    endif
+    if count(usetags, 'gcc64')  " too large
+        set tags+=/mingw64/x86_64-w64-mingw32/include/tags
+    endif
+    if count(usetags, 'gcc32')  " too large
+        set tags+=/mingw32/i686-w64-mingw32/include/tags
+    endif
+endif
+
+" set vbs=1     " debug
+
 " Map {{{
 map Q gq
 nnoremap Y y$
@@ -331,7 +371,7 @@ cnoremap %% <C-R>=expand('%:h').'/'<CR>
 cmap `g. lcd %:p:h<CR>:pwd<CR>
 cmap `gd call ToDesktop()<CR>:pwd<CR>
 cmap `gh lcd ~<CR>:pwd<CR>
-" map <F12> :!ctags -R --c++-kinds=+p --fields=+ials --extra=+q .<CR>
+" map <F12> :!ctags -R --c++-kinds=+p --fields=+ialS --extra=+q .<CR>
 " Map end }}}
 " #########################################################################
 
