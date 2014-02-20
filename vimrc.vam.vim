@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "VAM" for better vimming.
 "
-"  Last Change: 2014-02-17 20:44:07
+"  Last Change: 2014-02-17 22:25:05
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -222,8 +222,10 @@ let addons += ['vim-snippets']              " honza/vim-snippets
 let addons += ['vim-misc']                  " dependence of easytags
 let addons += ['shell']                     " xolox/vim-shell
 let addons += ['easytags']                  " xolox/vim-easytags
+" Do NOT use HighlightTags command!! Too slow!!
 : let g:easytags_auto_highlight = 0         " Makes movement slow
-: let g:easytags_dynamic_files = 1
+: let g:easytags_dynamic_files = 3          " I've modified easytags
+: let g:easytags_dynamic_tag = './tags;'
 : let g:easytags_include_members = 1
 : let g:easytags_events = ['BufWritePost']
 if has("win32") || has("win64") || has("win32unix")

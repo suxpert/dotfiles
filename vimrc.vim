@@ -1,6 +1,6 @@
 " #########################################################################
 "  File Info:   LiTuX's personal vimrc file
-"  Last Change: 2014-02-17 00:47:01
+"  Last Change: 2014-02-20 14:57:07
 "
 "  ReadMe:      This is my personal vimrc for daily use, some of those
 "               configurations are still not adjusted, and MAY be changed
@@ -64,7 +64,8 @@ if has("gui_running")
         set gfn=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
     elseif has("gui_win32")
         set gfn=LucidaMonoEF:h12,Lucida_Sans_Typwriter:h11,monaco:h11,DejaVu_Sans_Mono:h11,Consolas:h11,Fixedsys:h12
-        set gfw=YouYuan:h12,NSimSun:h12 " YouYuan lacks lots of glyphs.
+        " set gfw=YouYuan:h12,NSimSun:h12 " YouYuan lacks lots of glyphs.
+        set gfw=SimSun-ExtB:h12
     endif
 else                                    " for console version
     if &term == 'xterm' || &term == 'screen'
