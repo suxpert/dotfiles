@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "VAM" for better vimming.
 "
-"  Last Change: 2014-02-17 22:25:05
+"  Last Change: 2014-02-21 15:05:51
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -19,6 +19,7 @@ let pdfviewer = 'sumatra'   " or evince or mupdf or AcroRd32
 let addons = []
 " #########################################################################
 " Universal
+" call vam#ActivateAddons(['github:suxpert/vimcaps'], {'auto_install': 0})
 let addons += ['github:suxpert/vimcaps']    " my capslock plugin. :)
 let addons += ['surround']                  " tpope/vim-surround
 let addons += ['abolish']                   " tpope/vim-abolish
@@ -128,6 +129,10 @@ let addons += ['ctrlp-funky']               " tacahiroy/ctrlp-funky
 : nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
 let addons += ['vim-airline']               " bling/vim-airline
+: let g:airline#extensions#vimcaps#enabled = 1  " I've modified airline.
+: let g:airline#extensions#tabline#enabled = 1
+" : let g:airline#extensions#tabline#left_sep = ' '
+: let g:airline#extensions#tabline#left_alt_sep = '|'
 " : let g:airline_section_warning = '%{vimcaps#statusline(1)}'
 : scriptencoding utf8
 " : let g:airline_left_sep = '»' '▶'
