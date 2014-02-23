@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "VAM" for better vimming.
 "
-"  Last Change: 2014-02-21 15:05:51
+"  Last Change: 2014-02-23 19:43:43
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -11,34 +11,33 @@
 
 " Some plugins provide similar functions (completion, snippets et al.),
 " and might have confliction, choose one will be OK.
-let comppets = ['neo']      " snip, ycm, acp, neo, xpt; TODO, neo is slow.
-let texengine = 'xelatex'   " or lualatex or pdflatex
-let pdfviewer = 'sumatra'   " or evince or mupdf or AcroRd32
+let s:comppets = ['neo']        " snip, ycm, acp, neo, xpt; neo is slow.
+let s:texengine = 'xelatex'     " or lualatex or pdflatex
+let s:pdfviewer = 'sumatra'     " or evince or mupdf or AcroRd32
 
 
-let addons = []
+let s:addons = []
 " #########################################################################
 " Universal
-" call vam#ActivateAddons(['github:suxpert/vimcaps'], {'auto_install': 0})
-let addons += ['github:suxpert/vimcaps']    " my capslock plugin. :)
-let addons += ['surround']                  " tpope/vim-surround
-let addons += ['abolish']                   " tpope/vim-abolish
-let addons += ['unimpaired']                " tpope/vim-unimpaired
-let addons += ['commentary']                " tpope/vim-commentary
-let addons += ['repeat']                    " tpope/vim-repeat
-let addons += ['fugitive']                  " tpope/vim-fugitive
-let addons += ['matchit.zip']
-let addons += ['LargeFile']
+let s:addons += ['github:suxpert/vimcaps']      " my capslock plugin. :)
+let s:addons += ['surround']                    " tpope/vim-surround
+let s:addons += ['abolish']                     " tpope/vim-abolish
+let s:addons += ['unimpaired']                  " tpope/vim-unimpaired
+let s:addons += ['commentary']                  " tpope/vim-commentary
+let s:addons += ['repeat']                      " tpope/vim-repeat
+let s:addons += ['fugitive']                    " tpope/vim-fugitive
+let s:addons += ['matchit.zip']
+let s:addons += ['LargeFile']
 " matchparen++, there's a bug in this plugin about ruler length...
-let addons += ['matchparen']
-" let addons += ['vim-multiedit']           " hlissner/vim-multiedit
-let addons += ['vim-multiple-cursors']      " terryma/...
-let addons += ['EasyMotion']                " Lokaltog/vim-easymotion
-" : let g:EasyMotion_leader_key=','         " default is <leader><leader>
-" let addons += ['github:oblitum/rainbow']  " fork of luoChen's, too slow
+let s:addons += ['matchparen']
+" let s:addons += ['vim-multiedit']             " hlissner/vim-multiedit
+let s:addons += ['vim-multiple-cursors']        " terryma/...
+let s:addons += ['EasyMotion']                  " Lokaltog/vim-easymotion
+" : let g:EasyMotion_leader_key=','             " default is <leader><leader>
+" let s:addons += ['github:oblitum/rainbow']    " fork of luoChen's, too slow
 " : let g:rainbow_active = 1
 " : let g:rainbow_operators = 1
-let addons += ['Rainbow_Parentheses_Improved']  " luochen1990/rainbow, #4176
+let s:addons += ['Rainbow_Parentheses_Improved']    " rainbow, #4176
 : let g:rainbow_active = 1
 " GUI usually can use any color, so we devide a color circle into parts:
 " 5-based circle, use order: 24130(mod 5); for 6-based, use 241-530(mod 6)
@@ -115,22 +114,25 @@ let addons += ['Rainbow_Parentheses_Improved']  " luochen1990/rainbow, #4176
 \       ] + zhpairs,
 \   }
 
-let addons += ['DirDiff']                   " script #102
-let addons += ['The_NERD_tree']             " scrooloose/nerdtree
-let addons += ['ctrlp']                     " kien/ctrlp.vim
+let s:addons += ['DirDiff']                     " script #102
+let s:addons += ['The_NERD_tree']               " scrooloose/nerdtree
+let s:addons += ['vimproc']                     " Shougo/vimproc
+let s:addons += ['vimshell']                    " Shougo/vimshell
+let s:addons += ['unite']                       " Shougo/unite.vim
+let s:addons += ['ctrlp']                       " kien/ctrlp.vim
 : let g:ctrlp_cache_dir = '~/.vim/.cache/ctrlp'
 : let g:ctrlp_map = '<c-p>'
 : let g:ctrlp_cmd = 'CtrlP'
 : let g:ctrlp_working_path_mode = 'ra'
 : let g:ctrlp_extensions = ['funky']
-let addons += ['ctrlp-funky']               " tacahiroy/ctrlp-funky
+let s:addons += ['ctrlp-funky']                 " tacahiroy/ctrlp-funky
 : nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 : nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
-let addons += ['vim-airline']               " bling/vim-airline
+let s:addons += ['vim-airline']                 " bling/vim-airline
 : let g:airline#extensions#vimcaps#enabled = 1  " I've modified airline.
-: let g:airline#extensions#tabline#enabled = 1
+" : let g:airline#extensions#tabline#enabled = 1
 " : let g:airline#extensions#tabline#left_sep = ' '
 : let g:airline#extensions#tabline#left_alt_sep = '|'
 " : let g:airline_section_warning = '%{vimcaps#statusline(1)}'
@@ -140,46 +142,46 @@ let addons += ['vim-airline']               " bling/vim-airline
 : let g:airline_symbols = {}
 " : let g:airline_symbols.branch = '⎇'
 " : let g:airline_symbols.paste = 'ρ' 'Þ' '∥'
-: let g:airline_symbols.whitespace = 'Ξ'
+: let g:airline_symbols.whitespace = 'Ξ'        " U+2591: ░ U+2592: ▒ ▓
 scriptencoding
 
-let addons += ['Solarized']                 " altercation/--solarized
-let addons += ['molokai']                   " tomasr/molokai, slant
-" let addons += ['monokai']                 " lsdr/monokai, not good
+let s:addons += ['Solarized']                   " altercation/--solarized
+let s:addons += ['molokai']                     " tomasr/molokai, slant
+" let s:addons += ['monokai']                   " lsdr/monokai, not good
 
 " #########################################################################
 " Completion, NOTE there are conflictions between those plugins.
-" let addons += ['SuperTab']                " ervandew/supertab
+" let s:addons += ['SuperTab']                  " ervandew/supertab
 
-if count(comppets, 'snip')                  " snipmate-like
+if count(s:comppets, 'snip')                    " snipmate-like
     if has('python') || has('python3')
-        " let addons += ['UltiSnips']       " LaunchPad: SirVer/ultisnips
-        let addons += ['github:MarcWeber/ultisnips']
+        " let s:addons += ['UltiSnips']         " LaunchPad: SirVer/ultisnips
+        let s:addons += ['github:MarcWeber/ultisnips']
         : let g:UltiSnipsJumpForwardTrigger="<tab>"
         : let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
     else
-        " let addons += ['snipmate']        " MarcWeber, VAM messed them up
-        let addons += ['snipMate']          " garbas/vim-snipmate
+        " let s:addons += ['snipmate']          " MarcWeber, VAM messed them up
+        let s:addons += ['snipMate']            " garbas/vim-snipmate
     endif
 endif
-if count(comppets, 'ycm')                   " YouCompleteMe
-    if has('python') && executable('clang') " TODO
-        let addons += ['YouCompleteMe']     " Valloric/YouCompleteMe
+if count(s:comppets, 'ycm')                     " YouCompleteMe
+    if has('python') && executable('clang')     " TODO
+        let s:addons += ['YouCompleteMe']       " Valloric/YouCompleteMe
     endif
 endif
-if count(comppets, 'acp')                   " AutoComplPop
-    " let addons += ['L9']                  " dependence of AutoComplPop?
-    let addons += ['AutoComplPop']          " ms9tks/vim-autocomplpop
+if count(s:comppets, 'acp')                     " AutoComplPop
+    " let s:addons += ['L9']                    " dependence of AutoComplPop?
+    let s:addons += ['AutoComplPop']            " ms9tks/vim-autocomplpop
 endif
-if count(comppets, 'neo')                   " neocomplcache
+if count(s:comppets, 'neo')                     " neocomplcache
     if has('lua')
-        let addons += ['neocomplete']       " Shougo/neocomplete.vim
+        let s:addons += ['neocomplete']         " Shougo/neocomplete.vim
         : let g:neocomplete#enable_at_startup = 1
         : let g:neocomplete#enable_smart_case = 1
         : let g:neocomplete#sources#syntax#min_keyword_length = 3
         : let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
     else
-        let addons += ['neocomplcache']     " Shougo/neocomplcache.vim
+        let s:addons += ['neocomplcache']       " Shougo/neocomplcache.vim
         " It makes vim much slower.
         : let g:neocomplcache_max_list = 20
         : let g:neocomplcache_disable_auto_complete = 1
@@ -192,14 +194,14 @@ if count(comppets, 'neo')                   " neocomplcache
         : let g:neocomplcache_temporary_dir = '~/.vim/.cache/'
         : let g:neocomplcache_enable_at_startup = 1
         : let g:neocomplcache_enable_smart_case = 1
-        " : let g:neocomplcache_min_syntax_length = 4           " 4 is default
+        " : let g:neocomplcache_min_syntax_length = 4       " 4 is default
         : let g:neocomplcache_auto_completion_start_length = 4
         : let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
         " : let g:neocomplcache_enable_camel_case_completion = 1
         " : let g:neocomplcache_enable_underbar_completion = 1
     endif
-    let addons += ['neosnippet']            " Shougo/neosnippet
-    " let addons += ['neosnippet-snippets'] " Shougo/neosnippet-snippets
+    let s:addons += ['neosnippet']              " Shougo/neosnippet
+    " let s:addons += ['neosnippet-snippets']   " Shougo/neosnippet-snippets
     " : let g:neosnippet#disable_runtime_snippets = 1
     : let g:neosnippet#enable_snipmate_compatibility = 1
     : let g:neosnippet#snippets_directory='~/.vim/addons/vim-snippets/snippets/'
@@ -217,19 +219,19 @@ if count(comppets, 'neo')                   " neocomplcache
                 \ "\<Plug>(neosnippet_expand_or_jump)"
                 \ : "\<TAB>"
 endif
-if count(comppets, 'xpt')                   " xptemplate
-    let addons += ['xptemplate']            " drmingdrmer/xptemplate
+if count(s:comppets, 'xpt')                     " xptemplate
+    let s:addons += ['xptemplate']              " drmingdrmer/xptemplate
 endif
 " ##### More snippets ############################################
-let addons += ['vim-snippets']              " honza/vim-snippets
+let s:addons += ['vim-snippets']                " honza/vim-snippets
 
 " C-function complete using ctags.
-let addons += ['vim-misc']                  " dependence of easytags
-let addons += ['shell']                     " xolox/vim-shell
-let addons += ['easytags']                  " xolox/vim-easytags
+let s:addons += ['vim-misc']                    " dependence of easytags
+let s:addons += ['shell']                       " xolox/vim-shell
+let s:addons += ['easytags']                    " xolox/vim-easytags
 " Do NOT use HighlightTags command!! Too slow!!
-: let g:easytags_auto_highlight = 0         " Makes movement slow
-: let g:easytags_dynamic_files = 3          " I've modified easytags
+: let g:easytags_auto_highlight = 0             " Makes movement slow
+: let g:easytags_dynamic_files = 3              " I've modified easytags
 : let g:easytags_dynamic_tag = './tags;'
 : let g:easytags_include_members = 1
 : let g:easytags_events = ['BufWritePost']
@@ -238,20 +240,20 @@ if has("win32") || has("win64") || has("win32unix")
 else
 : let g:easytags_file=expand('~/.vim/$USER.tags')   " sudo issue.
 endif
-" let addons += ['TagHighlight']              " hg:abudden/taghighlight
-let addons += ['undotree']                  " mbbill/undotree
-" let addons += ['github:mbbill/fencview']
+" let s:addons += ['TagHighlight']              " hg:abudden/taghighlight
+let s:addons += ['undotree']                    " mbbill/undotree
+" let s:addons += ['github:mbbill/fencview']
 " : let g:fencview_autodetect = 1
-let addons += ['echofunc']                  " mbbill/echofunc
+let s:addons += ['echofunc']                    " mbbill/echofunc
 : let g:EchoFuncPathMappingEnabled = 7
 : let g:EchoFuncAutoStartBalloonDeclaration = 1
-let addons += ['code_complete']             " mbbill/code_complete
-: let g:rs='<+'
-: let g:re='+>'
-: let g:completekey='<C-B>'                 " should use superTab.
+let s:addons += ['code_complete']               " mbbill/code_complete
+: let g:rs='<`'                 " compatible with snippets
+: let g:re='`>'
+: let g:completekey='<C-B>'                     " should use superTab.
 
 " C-member complete using ctags.
-let addons += ['OmniCppComplete']           " script #1520
+let s:addons += ['OmniCppComplete']             " script #1520
 " au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 : let OmniCpp_NamespaceSearch = 1
 : let OmniCpp_GlobalScopeSearch = 1
@@ -264,31 +266,35 @@ let addons += ['OmniCppComplete']           " script #1520
 
 " #########################################################################
 " Programing
-" let addons += ['project.tar.gz']          " don't know which is better
-let addons += ['Syntastic']                 " scrooloose/syntastic
-let addons += ['a']                         " script #31
+" let s:addons += ['project.tar.gz']            " don't know which is better
+let s:addons += ['Syntastic']                   " scrooloose/syntastic
+let s:addons += ['a']                           " script #31
 
-let addons += ['DoxygenToolkit']            " script #987
+let s:addons += ['DoxygenToolkit']              " script #987
 
-" let addons += ['The_NERD_Commenter']      " scrooloose/nerdcommenter
+" let s:addons += ['The_NERD_Commenter']        " scrooloose/nerdcommenter
 
 " html/js/css
-let addons += ['Emmet']                     " mattn/emmet-vim
-let addons += ['Colorizer']                 " chrisbra/color_hightlight
+let s:addons += ['Emmet']                       " mattn/emmet-vim
+let s:addons += ['Colorizer']                   " chrisbra/color_hightlight
 : let g:colorizer_auto_filetype="css,html,xhtml"
 : let g:colorizer_colornames=1
-" let addons += ['colorizer']               " lilydjwg/colorizer
-let addons += ['MatchTag']                  " gregsexton/MatchTag
-" let addons += ['MatchTagAlways']          " a modified version
-let addons += ['jsbeautify']                " script #2727
+" let s:addons += ['colorizer']                 " lilydjwg/colorizer
+let s:addons += ['MatchTag']                    " gregsexton/MatchTag
+" let s:addons += ['MatchTagAlways']            " a modified version
+let s:addons += ['jsbeautify']                  " script #2727
 
 " LaTeX editing
-let addons += ['LaTeX-Suite_aka_Vim-LaTeX'] " vim-latex.sf.net
-: let g:tex_flavor=texengine
+let s:addons += ['LaTeX-Suite_aka_Vim-LaTeX']   " vim-latex.sf.net
+: let g:Imap_PlaceHolderStart='<`'          " compatible with snippets
+: let g:Imap_PlaceHolderEnd='`>'
+" : let g:Imap_StickyPlaceHolders=1         " don't work?
+" : let g:Imap_DeleteEmptyPlaceHolders=0
+: let g:tex_flavor=s:texengine
 : let g:Tex_MultipleCompileFormats='pdf'
 : let g:Tex_DefaultTargetFormat='pdf'
-: let g:Tex_CompileRule_pdf=texengine.' -interaction=nonstopmode -file-line-error-style $*'
-: let g:Tex_ViewRule_pdf=pdfviewer
+: let g:Tex_CompileRule_pdf=s:texengine.' -interaction=nonstopmode -file-line-error-style $*'
+: let g:Tex_ViewRule_pdf=s:pdfviewer
 " : set grepprg=grep\ -nH\ $*
 " : if has('win32') || has('win64')
 " :     set shellslash                      " will break vam, git...
@@ -297,5 +303,5 @@ let addons += ['LaTeX-Suite_aka_Vim-LaTeX'] " vim-latex.sf.net
 
 " #########################################################################
 " Finally
-call vam#ActivateAddons(addons, {'auto_install': 0})
+call vam#ActivateAddons(s:addons, {'auto_install': 0})
 

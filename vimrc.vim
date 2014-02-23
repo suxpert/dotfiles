@@ -1,6 +1,6 @@
 " #########################################################################
 "  File Info:   LiTuX's personal vimrc file
-"  Last Change: 2014-02-20 14:57:07
+"  Last Change: 2014-02-23 20:00:22
 "
 "  ReadMe:      This is my personal vimrc for daily use, some of those
 "               configurations are still not adjusted, and MAY be changed
@@ -74,6 +74,10 @@ else                                    " for console version
 endif
 
 let mapleader=','
+
+" if has('conceal')
+"   set conceallevel=2 concealcursor=i
+" endif
 
 set background=dark
 set number
