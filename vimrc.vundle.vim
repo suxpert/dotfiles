@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "vundle" for better vimming.
 "
-"  Last Change: 2014-01-27 15:01:05
+"  Last Change: 2014-02-25 15:33:51
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "vundle" for plugin management.
@@ -11,9 +11,9 @@
 
 " Some plugins provide similar functions (completion, snippets et al.),
 " and might have confliction, choose one will be OK.
-let comppets = ['neo']      " snip, ycm, acp, neo, xpt; TODO, neo is slow.
-let texengine = 'xelatex'   " or lualatex or pdflatex
-let pdfviewer = 'sumatra'   " or evince or mupdf or AcroRd32
+let s:comppets = ['neo']        " snip, ycm, acp, neo, xpt; neo is slow.
+let s:texengine = 'xelatex'     " or lualatex or pdflatex
+let s:pdfviewer = 'sumatra'     " or evince or mupdf or AcroRd32
 
 
 " #########################################################################
@@ -25,6 +25,7 @@ Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-fugitive'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'matchit.zip'
 Bundle 'LargeFile'
 " matchparen++, there's a bug in this plugin about ruler length...
@@ -75,26 +76,26 @@ Bundle 'luochen1990/rainbow'
 \   }
 : let g:rainbow_conf.separately['xml'] = {
 \   'parentheses': [
-\       ['<\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>', '</\a\w*>'],
+\       ['<\z(\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>', '</\z1>'],
 \       ] + enpairs,
 \   }
 : let g:rainbow_conf.separately['xhtml'] = {
 \   'parentheses': [
-\   [   '<\%('.xhtml_ignore.'\)\@!\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
-\       '</\%('.xhtml_ignore.'\)\@!\a\w*>'
+\   [   '<\z(\%('.xhtml_ignore.'\)\@!\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
+\       '</\z1>'
 \           ],
 \       ] + enpairs,
 \   }
 : let g:rainbow_conf.separately['html'] = {
 \   'parentheses': [
-\   [   '<\%('.html_ignore.'\)\@!\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
-\       '</\%('.html_ignore.'\)\@!\a\w*>'
+\   [   '<\z(\%('.html_ignore.'\)\@!\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
+\       '</\z1>'
 \           ],
 \       ] + enpairs,
 \   }
 : let g:rainbow_conf.separately['vim'] = {
 \   'parentheses': [
-\       ['\<fu\%[nction][!]\{,1}\s\+.*)', '\<endf\%[unction]\>'],
+\       ['\<fu\%[nction][!]\{,1}\ze\s\+.*)', '\<endf\%[unction]\>'],
 \       ['\<for\>', '\<endfo\%[r]\>'],
 \       ['\<wh\%[ile]\>', '\<endw\%[hile]\>'],
 \       ['\<if\>', '_\<elsei\%[f]\>\|\<el\%[se]\>_', '\<en\%[dif]\>'],
@@ -103,9 +104,9 @@ Bundle 'luochen1990/rainbow'
 \   }
 : let g:rainbow_conf.separately['tex'] = {
 \   'parentheses': [
-\   [   '\\begin{\%('.tex_ignore.'\)\@![^}]*}',
+\   [   '\\begin{\z(\%('.tex_ignore.'\)\@![^}]*\)}',
 \       '_\\item\|\\bibitem_',
-\       '\\end{\%('.tex_ignore.'\)\@![^}]*}'
+\       '\\end{\z1}'
 \           ],
 \       ['\\left\\\{,1}.','\\right\\\{,1}.'],
 \       ['\\langle', '\\rangle'],
@@ -113,8 +114,11 @@ Bundle 'luochen1990/rainbow'
 \       ] + zhpairs,
 \   }
 
-Bundle ['DirDiff']                   " script #102
+Bundle 'DirDiff'                    " script #102
 Bundle 'scrooloose/nerdtree'
+Bundle 'Shougo/vimproc'
+Bundle 'Shougo/vimshell'
+Bundle 'Shougo/unite.vim'
 Bundle 'kien/ctrlp.vim'
 : let g:ctrlp_cache_dir = '~/.vim/.cache/ctrlp'
 : let g:ctrlp_map = '<c-p>'
@@ -127,6 +131,10 @@ Bundle 'tacahiroy/ctrlp-funky'
 : nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
 Bundle 'bling/vim-airline'
+: let g:airline#extensions#vimcaps#enabled = 1  " I've modified airline.
+" : let g:airline#extensions#tabline#enabled = 1
+" : let g:airline#extensions#tabline#left_sep = ' '
+: let g:airline#extensions#tabline#left_alt_sep = '|'
 " : let g:airline_section_warning = '%{vimcaps#statusline(1)}'
 : scriptencoding utf8
 " : let g:airline_left_sep = '»' '▶'
@@ -134,7 +142,7 @@ Bundle 'bling/vim-airline'
 : let g:airline_symbols = {}
 " : let g:airline_symbols.branch = '⎇'
 " : let g:airline_symbols.paste = 'ρ' 'Þ' '∥'
-: let g:airline_symbols.whitespace = 'Ξ'
+: let g:airline_symbols.whitespace = 'Ξ'    " U+2591: ░ U+2592: ▒ ▓
 scriptencoding
 
 Bundle 'altercation/vim-colors-solarized'
@@ -145,7 +153,7 @@ Bundle 'tomasr/molokai'
 " Completion, NOTE there are conflictions between those plugins.
 " Bundle 'ervandew/supertab'
 
-if count(comppets, 'snip')                  " snipmate-like
+if count(s:comppets, 'snip')                " snipmate-like
     if has('python') || has('python3')
         " Bundle 'SirVer/ultisnips'
         Bundle 'MarcWeber/ultisnips'
@@ -156,16 +164,16 @@ if count(comppets, 'snip')                  " snipmate-like
         Bundle 'garbas/vim-snipmate'
     endif
 endif
-if count(comppets, 'ycm')                   " YouCompleteMe
+if count(s:comppets, 'ycm')                 " YouCompleteMe
     if has('python') && executable('clang') " TODO
         Bundle 'Valloric/YouCompleteMe'
     endif
 endif
-if count(comppets, 'acp')                   " AutoComplPop
+if count(s:comppets, 'acp')                 " AutoComplPop
     " Bundle 'L9'                  " dependence of AutoComplPop?
     Bundle 'ms9tks/vim-autocomplpop'
 endif
-if count(comppets, 'neo')                   " neocomplcache
+if count(s:comppets, 'neo')                 " neocomplcache
     if has('lua')
         Bundle 'Shougo/neocomplete.vim'
         : let g:neocomplete#enable_at_startup = 1
@@ -186,7 +194,7 @@ if count(comppets, 'neo')                   " neocomplcache
         : let g:neocomplcache_temporary_dir = '~/.vim/.cache/'
         : let g:neocomplcache_enable_at_startup = 1
         : let g:neocomplcache_enable_smart_case = 1
-        " : let g:neocomplcache_min_syntax_length = 4           " 4 is default
+        " : let g:neocomplcache_min_syntax_length = 4       " 4 is default
         : let g:neocomplcache_auto_completion_start_length = 4
         : let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
         " : let g:neocomplcache_enable_camel_case_completion = 1
@@ -211,7 +219,7 @@ if count(comppets, 'neo')                   " neocomplcache
                 \ "\<Plug>(neosnippet_expand_or_jump)"
                 \ : "\<TAB>"
 endif
-if count(comppets, 'xpt')                   " xptemplate
+if count(s:comppets, 'xpt')                 " xptemplate
     Bundle 'drmingdrmer/xptemplate'
 endif
 " ##### More snippets ############################################
@@ -221,10 +229,27 @@ Bundle 'honza/vim-snippets'
 Bundle 'xolox/vim-misc'                  " dependence of easytags
 Bundle 'xolox/vim-shell'
 Bundle 'xolox/vim-easytags'
-" : let g:easytags_file='~/.vim/tags-$USER'
+" Do NOT use HighlightTags command!! Too slow!!
+: let g:easytags_auto_highlight = 0         " Makes movement slow
+: let g:easytags_dynamic_files = 3          " I've modified easytags
+: let g:easytags_dynamic_tag = './tags;'
+: let g:easytags_include_members = 1
+: let g:easytags_events = ['BufWritePost']
+if has("win32") || has("win64") || has("win32unix")
+: let g:easytags_file=expand('~/.vim/$USERNAME.tags')
+else
+: let g:easytags_file=expand('~/.vim/$USER.tags')   " sudo issue.
+endif
+" ActivateAddons TagHighlight               " hg:abudden/taghighlight
+ActivateAddons undotree                     " mbbill/undotree
+" ActivateAddons github:mbbill/fencview
+" : let g:fencview_autodetect = 1
+ActivateAddons echofunc                     " mbbill/echofunc
+: let g:EchoFuncPathMappingEnabled = 7
+: let g:EchoFuncAutoStartBalloonDeclaration = 1
 Bundle 'mbbill/code_complete'
-: let g:rs='<+'
-: let g:re='+>'
+: let g:rs='<`'
+: let g:re='`>'
 : let g:completekey='<C-B>'                 " should use superTab.
 
 " C-member complete using ctags.
@@ -256,17 +281,27 @@ Bundle 'chrisbra/color_hightlight'
 : let g:colorizer_colornames=1
 " Bundle 'lilydjwg/colorizer'
 Bundle 'gregsexton/MatchTag'
+" if has("python")
+"     ActivateAddons Valloric/MatchTagAlways  " a modified version
+" endif
 Bundle 'jsbeautify'                " script #2727
 
 " LaTeX editing
 Bundle 'LaTeX-Suite_aka_Vim-LaTeX' " vim-latex.sf.net TODO
-: let g:tex_flavor=texengine
+: let g:Imap_PlaceHolderStart='<`'          " compatible with snippets
+: let g:Imap_PlaceHolderEnd='`>'
+" : let g:Imap_StickyPlaceHolders=1         " don't work?
+" : let g:Imap_DeleteEmptyPlaceHolders=0
+: let g:tex_flavor=s:texengine
 : let g:Tex_MultipleCompileFormats='pdf'
 : let g:Tex_DefaultTargetFormat='pdf'
-: let g:Tex_CompileRule_pdf=texengine.' -interaction=nonstopmode -file-line-error-style $*'
-: let g:Tex_ViewRule_pdf=pdfviewer
+: let g:Tex_CompileRule_pdf=s:texengine.' -interaction=nonstopmode -file-line-error-style $*'
+: let g:Tex_ViewRule_pdf=s:pdfviewer
 " : set grepprg=grep\ -nH\ $*
 " : if has('win32') || has('win64')
 " :     set shellslash                      " will break vam, git...
 " : endif
+
+" #########################################################################
+" EOF
 
