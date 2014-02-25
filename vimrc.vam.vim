@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "VAM" for better vimming.
 "
-"  Last Change: 2014-02-23 19:43:43
+"  Last Change: 2014-02-24 10:55:00
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -19,13 +19,14 @@ let s:pdfviewer = 'sumatra'     " or evince or mupdf or AcroRd32
 let s:addons = []
 " #########################################################################
 " Universal
-let s:addons += ['github:suxpert/vimcaps']      " my capslock plugin. :)
+let s:addons += ['vimcaps']                     " my capslock plugin. :)
 let s:addons += ['surround']                    " tpope/vim-surround
 let s:addons += ['abolish']                     " tpope/vim-abolish
 let s:addons += ['unimpaired']                  " tpope/vim-unimpaired
 let s:addons += ['commentary']                  " tpope/vim-commentary
 let s:addons += ['repeat']                      " tpope/vim-repeat
 let s:addons += ['fugitive']                    " tpope/vim-fugitive
+" let s:addons += ['vim-gitgutter']               " airblade/vim-gitgutter
 let s:addons += ['matchit.zip']
 let s:addons += ['LargeFile']
 " matchparen++, there's a bug in this plugin about ruler length...
@@ -202,7 +203,7 @@ if count(s:comppets, 'neo')                     " neocomplcache
     endif
     let s:addons += ['neosnippet']              " Shougo/neosnippet
     " let s:addons += ['neosnippet-snippets']   " Shougo/neosnippet-snippets
-    " : let g:neosnippet#disable_runtime_snippets = 1
+    : let g:neosnippet#disable_runtime_snippets = {'_': 1}
     : let g:neosnippet#enable_snipmate_compatibility = 1
     : let g:neosnippet#snippets_directory='~/.vim/addons/vim-snippets/snippets/'
     " Plugin key-mappings.

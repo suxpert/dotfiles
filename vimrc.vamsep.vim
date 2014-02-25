@@ -3,7 +3,7 @@
 "               Sexy plugins managed by "VAM" for better vimming.
 "               Plugins are loaded separately.
 "
-"  Last Change: 2014-01-27 15:08:01
+"  Last Change: 2014-02-24 23:13:57
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -12,29 +12,30 @@
 
 " Some plugins provide similar functions (completion, snippets et al.),
 " and might have confliction, choose one will be OK.
-let comppets = ['neo']      " snip, ycm, acp, neo, xpt; TODO, neo is slow.
-let texengine = 'xelatex'   " or lualatex or pdflatex
-let pdfviewer = 'sumatra'   " or evince or mupdf or AcroRd32
+let s:comppets = ['neo']        " snip, ycm, acp, neo, xpt; neo is slow.
+let s:texengine = 'xelatex'     " or lualatex or pdflatex
+let s:pdfviewer = 'sumatra'     " or evince or mupdf or AcroRd32
 
 
 " #########################################################################
 " Universal
-ActivateAddons github:suxpert/vimcaps       " my vimcaps plugin
+ActivateAddons vimcaps                      " my capslock plugin. :)
 ActivateAddons surround                     " tpope/vim-surround
-ActivateAddons abolish                   " tpope/vim-abolish
-ActivateAddons unimpaired                " tpope/vim-unimpaired
-ActivateAddons commentary                " tpope/vim-commentary
-ActivateAddons repeat                    " tpope/vim-repeat
-ActivateAddons fugitive                  " tpope/vim-fugitive
+ActivateAddons abolish                      " tpope/vim-abolish
+ActivateAddons unimpaired                   " tpope/vim-unimpaired
+ActivateAddons commentary                   " tpope/vim-commentary
+ActivateAddons repeat                       " tpope/vim-repeat
+ActivateAddons fugitive                     " tpope/vim-fugitive
+ActivateAddons vim-gitgutter                " airblade/vim-gitgutter
 ActivateAddons matchit.zip
 ActivateAddons LargeFile
 " matchparen++, there's a bug in this plugin about ruler length...
 ActivateAddons matchparen
-" ActivateAddons vim-multiedit           " hlissner/vim-multiedit
-ActivateAddons vim-multiple-cursors      " terryma/...
-ActivateAddons EasyMotion                " Lokaltog/vim-easymotion
+" ActivateAddons vim-multiedit              " hlissner/vim-multiedit
+ActivateAddons vim-multiple-cursors         " terryma/...
+ActivateAddons EasyMotion                   " Lokaltog/vim-easymotion
 " : let g:EasyMotion_leader_key=','         " default is <leader><leader>
-" ActivateAddons github:oblitum/rainbow  " fork of luoChen's, too slow
+" ActivateAddons github:oblitum/rainbow     " fork of luoChen's, too slow
 " : let g:rainbow_active = 1
 " : let g:rainbow_operators = 1
 ActivateAddons Rainbow_Parentheses_Improved  " luochen1990/rainbow, #4176
@@ -76,26 +77,26 @@ ActivateAddons Rainbow_Parentheses_Improved  " luochen1990/rainbow, #4176
 \   }
 : let g:rainbow_conf.separately['xml'] = {
 \   'parentheses': [
-\       ['<\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>', '</\a\w*>'],
+\       ['<\z(\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>', '</\z1>'],
 \       ] + enpairs,
 \   }
 : let g:rainbow_conf.separately['xhtml'] = {
 \   'parentheses': [
-\   [   '<\%('.xhtml_ignore.'\)\@!\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
-\       '</\%('.xhtml_ignore.'\)\@!\a\w*>'
+\   [   '<\z(\%('.xhtml_ignore.'\)\@!\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
+\       '</\z1>'
 \           ],
 \       ] + enpairs,
 \   }
 : let g:rainbow_conf.separately['html'] = {
 \   'parentheses': [
-\   [   '<\%('.html_ignore.'\)\@!\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
-\       '</\%('.html_ignore.'\)\@!\a\w*>'
+\   [   '<\z(\%('.html_ignore.'\)\@!\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
+\       '</\z1>'
 \           ],
 \       ] + enpairs,
 \   }
 : let g:rainbow_conf.separately['vim'] = {
 \   'parentheses': [
-\       ['\<fu\%[nction][!]\{,1}\s\+.*)', '\<endf\%[unction]\>'],
+\       ['\<fu\%[nction][!]\{,1}\ze\s\+.*)', '\<endf\%[unction]\>'],
 \       ['\<for\>', '\<endfo\%[r]\>'],
 \       ['\<wh\%[ile]\>', '\<endw\%[hile]\>'],
 \       ['\<if\>', '_\<elsei\%[f]\>\|\<el\%[se]\>_', '\<en\%[dif]\>'],
@@ -104,30 +105,38 @@ ActivateAddons Rainbow_Parentheses_Improved  " luochen1990/rainbow, #4176
 \   }
 : let g:rainbow_conf.separately['tex'] = {
 \   'parentheses': [
-\   [   '\\begin{\%('.tex_ignore.'\)\@![^}]*}',
+\   [   '\\begin{\z(\%('.tex_ignore.'\)\@![^}]*\)}',
 \       '_\\item\|\\bibitem_',
-\       '\\end{\%('.tex_ignore.'\)\@![^}]*}'
+\       '\\end{\z1}'
 \           ],
 \       ['\\left\\\{,1}.','\\right\\\{,1}.'],
 \       ['\\langle', '\\rangle'],
 \       ['(',')'], ['\[','\]'],
 \       ] + zhpairs,
 \   }
+" html hook for rainbow
 
-ActivateAddons DirDiff                   " script #102
-ActivateAddons The_NERD_tree             " scrooloose/nerdtree
-ActivateAddons ctrlp                     " kien/ctrlp.vim
+ActivateAddons DirDiff                      " script #102
+ActivateAddons The_NERD_tree                " scrooloose/nerdtree
+ActivateAddons vimproc                      " Shougo/vimproc
+ActivateAddons vimshell                     " Shougo/vimshell
+ActivateAddons unite                        " Shougo/unite.vim
+ActivateAddons ctrlp                        " kien/ctrlp.vim
 : let g:ctrlp_cache_dir = '~/.vim/.cache/ctrlp'
 : let g:ctrlp_map = '<c-p>'
 : let g:ctrlp_cmd = 'CtrlP'
 : let g:ctrlp_working_path_mode = 'ra'
 : let g:ctrlp_extensions = ['funky']
-ActivateAddons ctrlp-funky               " tacahiroy/ctrlp-funky
+ActivateAddons ctrlp-funky                  " tacahiroy/ctrlp-funky
 : nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 : nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
-ActivateAddons vim-airline               " bling/vim-airline
+ActivateAddons vim-airline                  " bling/vim-airline
+: let g:airline#extensions#vimcaps#enabled = 1  " I've modified airline.
+" : let g:airline#extensions#tabline#enabled = 1
+" : let g:airline#extensions#tabline#left_sep = ' '
+: let g:airline#extensions#tabline#left_alt_sep = '|'
 " : let g:airline_section_warning = '%{vimcaps#statusline(1)}'
 : scriptencoding utf8
 " : let g:airline_left_sep = '»' '▶'
@@ -135,67 +144,67 @@ ActivateAddons vim-airline               " bling/vim-airline
 : let g:airline_symbols = {}
 " : let g:airline_symbols.branch = '⎇'
 " : let g:airline_symbols.paste = 'ρ' 'Þ' '∥'
-: let g:airline_symbols.whitespace = 'Ξ'
+: let g:airline_symbols.whitespace = 'Ξ'    " U+2591: ░ U+2592: ▒ ▓
 scriptencoding
 
-ActivateAddons Solarized                 " altercation/--solarized
-ActivateAddons molokai                   " tomasr/molokai, slant
-" ActivateAddons monokai                 " lsdr/monokai, not good
+ActivateAddons Solarized                    " altercation/--solarized
+ActivateAddons molokai                      " tomasr/molokai, slant
+" ActivateAddons monokai                    " lsdr/monokai, not good
 
 " #########################################################################
 " Completion, NOTE there are conflictions between those plugins.
-" ActivateAddons SuperTab                " ervandew/supertab
+" ActivateAddons SuperTab                   " ervandew/supertab
 
-if count(comppets, 'snip')                  " snipmate-like
+if count(s:comppets, 'snip')                " snipmate-like
     if has('python') || has('python3')
-        " ActivateAddons UltiSnips       " LaunchPad: SirVer/ultisnips
+        " ActivateAddons UltiSnips          " LaunchPad: SirVer/ultisnips
         ActivateAddons github:MarcWeber/ultisnips
         : let g:UltiSnipsJumpForwardTrigger="<tab>"
         : let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
     else
-        " ActivateAddons snipmate        " MarcWeber, VAM messed them up
-        ActivateAddons snipMate          " garbas/vim-snipmate
+        " ActivateAddons snipmate           " MarcWeber, VAM messed them up
+        ActivateAddons snipMate             " garbas/vim-snipmate
     endif
 endif
-if count(comppets, 'ycm')                   " YouCompleteMe
+if count(s:comppets, 'ycm')                 " YouCompleteMe
     if has('python') && executable('clang') " TODO
-        ActivateAddons YouCompleteMe     " Valloric/YouCompleteMe
+        ActivateAddons YouCompleteMe        " Valloric/YouCompleteMe
     endif
 endif
-if count(comppets, 'acp')                   " AutoComplPop
-    " ActivateAddons L9                  " dependence of AutoComplPop?
-    ActivateAddons AutoComplPop          " ms9tks/vim-autocomplpop
+if count(s:comppets, 'acp')                 " AutoComplPop
+    " ActivateAddons L9                     " dependence of AutoComplPop?
+    ActivateAddons AutoComplPop             " ms9tks/vim-autocomplpop
 endif
-if count(comppets, 'neo')                   " neocomplcache
+if count(s:comppets, 'neo')                 " neocomplcache
     if has('lua')
-        ActivateAddons neocomplete       " Shougo/neocomplete.vim
+        ActivateAddons neocomplete          " Shougo/neocomplete.vim
         : let g:neocomplete#enable_at_startup = 1
         : let g:neocomplete#enable_smart_case = 1
         : let g:neocomplete#sources#syntax#min_keyword_length = 3
         : let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
     else
-        ActivateAddons neocomplcache     " Shougo/neocomplcache.vim
+        ActivateAddons neocomplcache        " Shougo/neocomplcache.vim
         " It makes vim much slower.
         : let g:neocomplcache_max_list = 20
         : let g:neocomplcache_disable_auto_complete = 1
         " : so ~/.vim/neocomp.cfg.vim
-        " : inoremap <expr><C-g>     neocomplcache#undo_completion()
-        : inoremap <expr><C-l>     neocomplcache#complete_common_string()
+        " : inoremap <expr><C-g>  neocomplcache#undo_completion()
+        : inoremap <expr><C-l>  neocomplcache#complete_common_string()
         " : inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
         " : inoremap <expr><C-y>  neocomplcache#close_popup()
         " : inoremap <expr><C-e>  neocomplcache#cancel_popup()
         : let g:neocomplcache_temporary_dir = '~/.vim/.cache/'
         : let g:neocomplcache_enable_at_startup = 1
         : let g:neocomplcache_enable_smart_case = 1
-        " : let g:neocomplcache_min_syntax_length = 4           " 4 is default
+        " : let g:neocomplcache_min_syntax_length = 4       " 4 is default
         : let g:neocomplcache_auto_completion_start_length = 4
         : let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
         " : let g:neocomplcache_enable_camel_case_completion = 1
         " : let g:neocomplcache_enable_underbar_completion = 1
     endif
-    ActivateAddons neosnippet            " Shougo/neosnippet
-    " ActivateAddons neosnippet-snippets " Shougo/neosnippet-snippets
-    " : let g:neosnippet#disable_runtime_snippets = 1
+    ActivateAddons neosnippet               " Shougo/neosnippet
+    " ActivateAddons neosnippet-snippets    " Shougo/neosnippet-snippets
+    : let g:neosnippet#disable_runtime_snippets = {'_': 1}
     : let g:neosnippet#enable_snipmate_compatibility = 1
     : let g:neosnippet#snippets_directory='~/.vim/addons/vim-snippets/snippets/'
     " Plugin key-mappings.
@@ -212,24 +221,41 @@ if count(comppets, 'neo')                   " neocomplcache
                 \ "\<Plug>(neosnippet_expand_or_jump)"
                 \ : "\<TAB>"
 endif
-if count(comppets, 'xpt')                   " xptemplate
-    ActivateAddons xptemplate            " drmingdrmer/xptemplate
+if count(s:comppets, 'xpt')                 " xptemplate
+    ActivateAddons xptemplate               " drmingdrmer/xptemplate
 endif
 " ##### More snippets ############################################
-ActivateAddons vim-snippets              " honza/vim-snippets
+ActivateAddons vim-snippets                 " honza/vim-snippets
 
 " C-function complete using ctags.
-ActivateAddons vim-misc                  " dependence of easytags
-ActivateAddons shell                     " xolox/vim-shell
-ActivateAddons easytags                  " xolox/vim-easytags
-" : let g:easytags_file='~/.vim/tags-$USER'
-ActivateAddons code_complete             " mbbill/code_complete
-: let g:rs='<+'
-: let g:re='+>'
+ActivateAddons vim-misc                     " dependence of easytags
+ActivateAddons shell                        " xolox/vim-shell
+ActivateAddons easytags                     " xolox/vim-easytags
+" Do NOT use HighlightTags command!! Too slow!!
+: let g:easytags_auto_highlight = 0         " Makes movement slow
+: let g:easytags_dynamic_files = 3          " I've modified easytags
+: let g:easytags_dynamic_tag = './tags;'
+: let g:easytags_include_members = 1
+: let g:easytags_events = ['BufWritePost']
+if has("win32") || has("win64") || has("win32unix")
+: let g:easytags_file=expand('~/.vim/$USERNAME.tags')
+else
+: let g:easytags_file=expand('~/.vim/$USER.tags')   " sudo issue.
+endif
+" ActivateAddons TagHighlight               " hg:abudden/taghighlight
+ActivateAddons undotree                     " mbbill/undotree
+" ActivateAddons github:mbbill/fencview
+" : let g:fencview_autodetect = 1
+ActivateAddons echofunc                     " mbbill/echofunc
+: let g:EchoFuncPathMappingEnabled = 7
+: let g:EchoFuncAutoStartBalloonDeclaration = 1
+ActivateAddons code_complete                " mbbill/code_complete
+: let g:rs='<`'
+: let g:re='`>'
 : let g:completekey='<C-B>'                 " should use superTab.
 
 " C-member complete using ctags.
-ActivateAddons OmniCppComplete           " script #1520
+ActivateAddons OmniCppComplete              " script #1520
 " au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 : let OmniCpp_NamespaceSearch = 1
 : let OmniCpp_GlobalScopeSearch = 1
@@ -242,31 +268,37 @@ ActivateAddons OmniCppComplete           " script #1520
 
 " #########################################################################
 " Programing
-" ActivateAddons project.tar.gz          " don't know which is better
-ActivateAddons Syntastic                 " scrooloose/syntastic
-ActivateAddons a                         " script #31
+" ActivateAddons project.tar.gz             " don't know which is better
+ActivateAddons Syntastic                    " scrooloose/syntastic
+ActivateAddons a                            " script #31
 
-ActivateAddons DoxygenToolkit            " script #987
+ActivateAddons DoxygenToolkit               " script #987
 
-" ActivateAddons The_NERD_Commenter      " scrooloose/nerdcommenter
+" ActivateAddons The_NERD_Commenter         " scrooloose/nerdcommenter
 
 " html/js/css
-ActivateAddons Emmet                     " mattn/emmet-vim
-ActivateAddons Colorizer                 " chrisbra/color_hightlight
+ActivateAddons Emmet                        " mattn/emmet-vim
+ActivateAddons Colorizer                    " chrisbra/color_hightlight
 : let g:colorizer_auto_filetype="css,html,xhtml"
 : let g:colorizer_colornames=1
-" ActivateAddons colorizer               " lilydjwg/colorizer
-ActivateAddons MatchTag                  " gregsexton/MatchTag
-" ActivateAddons MatchTagAlways          " a modified version
-ActivateAddons jsbeautify                " script #2727
+" ActivateAddons colorizer                  " lilydjwg/colorizer
+ActivateAddons MatchTag                     " gregsexton/MatchTag
+" if has("python")
+"     ActivateAddons Valloric/MatchTagAlways  " a modified version
+" endif
+ActivateAddons jsbeautify                   " script #2727
 
 " LaTeX editing
-ActivateAddons LaTeX-Suite_aka_Vim-LaTeX " vim-latex.sf.net
-: let g:tex_flavor=texengine
+ActivateAddons LaTeX-Suite_aka_Vim-LaTeX    " vim-latex.sf.net
+: let g:Imap_PlaceHolderStart='<`'          " compatible with snippets
+: let g:Imap_PlaceHolderEnd='`>'
+" : let g:Imap_StickyPlaceHolders=1         " don't work?
+" : let g:Imap_DeleteEmptyPlaceHolders=0
+: let g:tex_flavor=s:texengine
 : let g:Tex_MultipleCompileFormats='pdf'
 : let g:Tex_DefaultTargetFormat='pdf'
-: let g:Tex_CompileRule_pdf=texengine.' -interaction=nonstopmode -file-line-error-style $*'
-: let g:Tex_ViewRule_pdf=pdfviewer
+: let g:Tex_CompileRule_pdf=s:texengine.' -interaction=nonstopmode -file-line-error-style $*'
+: let g:Tex_ViewRule_pdf=s:pdfviewer
 " : set grepprg=grep\ -nH\ $*
 " : if has('win32') || has('win64')
 " :     set shellslash                      " will break vam, git...
@@ -274,6 +306,5 @@ ActivateAddons LaTeX-Suite_aka_Vim-LaTeX " vim-latex.sf.net
 
 
 " #########################################################################
-" Finally
-" call vam#ActivateAddons(addons, {'auto_install': 0})
+" EOF
 

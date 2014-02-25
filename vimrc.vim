@@ -1,6 +1,6 @@
 " #########################################################################
 "  File Info:   LiTuX's personal vimrc file
-"  Last Change: 2014-02-23 20:00:22
+"  Last Change: 2014-02-25 02:37:10
 "
 "  ReadMe:      This is my personal vimrc for daily use, some of those
 "               configurations are still not adjusted, and MAY be changed
@@ -50,6 +50,12 @@ endif
 
 set fencs=ucs-bom,utf8,cp936,gb18030,big5,euc-jp,euc-kr,default,latin1
 " set ambiwidth=double
+
+if &shell =~ 'cmd.exe'
+    set noshellslash
+else
+    set shellslash
+endif
 
 " Fonts et al.
 if has("gui_running")
@@ -192,8 +198,8 @@ elseif manager == "vam"
     call vam#ActivateAddons(['github:MarcWeber/vim-addon-manager'])
     let loadPlugin = 1
     " let loadPlugin = 0 | call vam#ActivateAddons([''])    " test plugin .
-    if loadPlugin == 1 && filereadable(expand(localrtp).'vimrc.vam.vim')
-        execute "source ".localrtp.'vimrc.vam.vim'
+    if loadPlugin == 1 && filereadable(expand(localrtp).'vimrc.vamsep.vim')
+        execute "source ".localrtp.'vimrc.vamsep.vim'
     endif
 " #########################################################################
 elseif manager == "pathogen"
@@ -358,7 +364,10 @@ elseif has("win32unix")
     endif
 endif
 
-" set vbs=1     " debug
+" set ch=15
+" set vbs=4     " debug
+
+runtime ftplugin/man.vim
 
 " Map {{{
 map Q gq
