@@ -3,7 +3,7 @@
 "               Sexy plugins managed by "VAM" for better vimming.
 "               Plugins are loaded separately.
 "
-"  Last Change: 2014-02-24 23:13:57
+"  Last Change: 2014-04-02 18:08:20
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -26,7 +26,8 @@ ActivateAddons unimpaired                   " tpope/vim-unimpaired
 ActivateAddons commentary                   " tpope/vim-commentary
 ActivateAddons repeat                       " tpope/vim-repeat
 ActivateAddons fugitive                     " tpope/vim-fugitive
-ActivateAddons vim-gitgutter                " airblade/vim-gitgutter
+" ActivateAddons vim-gitgutter                " airblade/vim-gitgutter
+ActivateAddons github:suxpert/GitGutter
 ActivateAddons matchit.zip
 ActivateAddons LargeFile
 " matchparen++, there's a bug in this plugin about ruler length...
@@ -111,8 +112,7 @@ ActivateAddons Rainbow_Parentheses_Improved  " luochen1990/rainbow, #4176
 \           ],
 \       ['\\left\\\{,1}.','\\right\\\{,1}.'],
 \       ['\\langle', '\\rangle'],
-\       ['(',')'], ['\[','\]'],
-\       ] + zhpairs,
+\       ] + enpairs + zhpairs,
 \   }
 " html hook for rainbow
 
