@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "VAM" for better vimming.
 "
-"  Last Change: 2014-02-24 10:55:00
+"  Last Change: 2014-04-11 14:14:50
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -27,6 +27,7 @@ let s:addons += ['commentary']                  " tpope/vim-commentary
 let s:addons += ['repeat']                      " tpope/vim-repeat
 let s:addons += ['fugitive']                    " tpope/vim-fugitive
 " let s:addons += ['vim-gitgutter']               " airblade/vim-gitgutter
+let s:addons += ['github:suxpert/GitGutter']
 let s:addons += ['matchit.zip']
 let s:addons += ['LargeFile']
 " matchparen++, there's a bug in this plugin about ruler length...
@@ -77,20 +78,20 @@ let s:addons += ['Rainbow_Parentheses_Improved']    " rainbow, #4176
 \   }
 : let g:rainbow_conf.separately['xml'] = {
 \   'parentheses': [
-\       ['<\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>', '</\a\w*>'],
+\       ['<\z(\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>', '</\z1>'],
 \       ] + enpairs,
 \   }
 : let g:rainbow_conf.separately['xhtml'] = {
 \   'parentheses': [
-\   [   '<\%('.xhtml_ignore.'\)\@!\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
-\       '</\%('.xhtml_ignore.'\)\@!\a\w*>'
+\   [   '<\z(\%('.xhtml_ignore.'\)\@!\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
+\       '</\z1>'
 \           ],
 \       ] + enpairs,
 \   }
 : let g:rainbow_conf.separately['html'] = {
 \   'parentheses': [
-\   [   '<\%('.html_ignore.'\)\@!\a\w*\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
-\       '</\%('.html_ignore.'\)\@!\a\w*>'
+\   [   '<\z(\%('.html_ignore.'\)\@!\a\w*\)\%(\_s*\| \_[^>]*\%(\/\)\@1<!\)>',
+\       '</\z1>'
 \           ],
 \       ] + enpairs,
 \   }
@@ -105,14 +106,13 @@ let s:addons += ['Rainbow_Parentheses_Improved']    " rainbow, #4176
 \   }
 : let g:rainbow_conf.separately['tex'] = {
 \   'parentheses': [
-\   [   '\\begin{\%('.tex_ignore.'\)\@![^}]*}',
+\   [   '\\begin{\z(\%('.tex_ignore.'\)\@![^}]*\)}',
 \       '_\\item\|\\bibitem_',
-\       '\\end{\%('.tex_ignore.'\)\@![^}]*}'
+\       '\\end{\z1}'
 \           ],
 \       ['\\left\\\{,1}.','\\right\\\{,1}.'],
 \       ['\\langle', '\\rangle'],
-\       ['(',')'], ['\[','\]'],
-\       ] + zhpairs,
+\       ] + enpairs + zhpairs,
 \   }
 
 let s:addons += ['DirDiff']                     " script #102

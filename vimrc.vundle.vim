@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "vundle" for better vimming.
 "
-"  Last Change: 2014-02-25 15:33:51
+"  Last Change: 2014-04-11 14:19:16
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "vundle" for plugin management.
@@ -26,6 +26,7 @@ Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
+Bundle 'suxpert/GitGutter'
 Bundle 'matchit.zip'
 Bundle 'LargeFile'
 " matchparen++, there's a bug in this plugin about ruler length...
@@ -110,8 +111,7 @@ Bundle 'luochen1990/rainbow'
 \           ],
 \       ['\\left\\\{,1}.','\\right\\\{,1}.'],
 \       ['\\langle', '\\rangle'],
-\       ['(',')'], ['\[','\]'],
-\       ] + zhpairs,
+\       ] + enpairs + zhpairs,
 \   }
 
 Bundle 'DirDiff'                    " script #102
@@ -202,7 +202,7 @@ if count(s:comppets, 'neo')                 " neocomplcache
     endif
     Bundle 'Shougo/neosnippet'
     " Bundle 'Shougo/neosnippet-snippets'
-    " : let g:neosnippet#desable_runtime_snippets = 1
+    : let g:neosnippet#disable_runtime_snippets = {'_': 1}
     : let g:neosnippet#enable_snipmate_compatibility = 1
     : let g:neosnippet#snippets_directory='~/.vim/addons/vim-snippets/snippets/'
     " Plugin key-mappings.
