@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "vundle" for better vimming.
 "
-"  Last Change: 2014-04-11 14:19:16
+"  Last Change: 2014-06-18 10:16:13
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "vundle" for plugin management.
@@ -18,27 +18,29 @@ let s:pdfviewer = 'sumatra'     " or evince or mupdf or AcroRd32
 
 " #########################################################################
 " Universal
-Bundle 'suxpert/vimcaps'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-fugitive'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'suxpert/GitGutter'
-Bundle 'matchit.zip'
-Bundle 'LargeFile'
+Plugin 'suxpert/vimcaps'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tommcdo/vim-exchange'
+" Plugin 'airblade/vim-gitgutter'
+Plugin 'suxpert/GitGutter'
+: let g:gitgutter_avoid_cmd = 1
+Plugin 'matchit.zip'
+Plugin 'LargeFile'
 " matchparen++, there's a bug in this plugin about ruler length...
-Bundle 'matchparen'
-" Bundle 'hlissner/vim-multiedit'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'Lokaltog/vim-easymotion'
+Plugin 'matchparen'
+" Plugin 'hlissner/vim-multiedit'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'Lokaltog/vim-easymotion'
 " : let g:EasyMotion_leader_key=','         " default is <leader><leader>
-" Bundle 'oblitum/rainbow'                  " fork of luoChen's, too slow
+" Plugin 'oblitum/rainbow'                  " fork of luoChen's, too slow
 " : let g:rainbow_active = 1
 " : let g:rainbow_operators = 1
-Bundle 'luochen1990/rainbow'
+Plugin 'luochen1990/rainbow'
 : let g:rainbow_active = 1
 " GUI usually can use any color, so we devide a color circle into parts:
 " 5-based circle, use order: 24130(mod 5); for 6-based, use 241-530(mod 6)
@@ -114,23 +116,23 @@ Bundle 'luochen1990/rainbow'
 \       ] + enpairs + zhpairs,
 \   }
 
-Bundle 'DirDiff'                    " script #102
-Bundle 'scrooloose/nerdtree'
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/vimshell'
-Bundle 'Shougo/unite.vim'
-Bundle 'kien/ctrlp.vim'
+Plugin 'DirDiff'                    " script #102
+Plugin 'scrooloose/nerdtree'
+Plugin 'Shougo/vimproc'
+Plugin 'Shougo/vimshell'
+Plugin 'Shougo/unite.vim'
+Plugin 'kien/ctrlp.vim'
 : let g:ctrlp_cache_dir = '~/.vim/.cache/ctrlp'
 : let g:ctrlp_map = '<c-p>'
 : let g:ctrlp_cmd = 'CtrlP'
 : let g:ctrlp_working_path_mode = 'ra'
 : let g:ctrlp_extensions = ['funky']
-Bundle 'tacahiroy/ctrlp-funky'
+Plugin 'tacahiroy/ctrlp-funky'
 : nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 : nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
-Bundle 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 : let g:airline#extensions#vimcaps#enabled = 1  " I've modified airline.
 " : let g:airline#extensions#tabline#enabled = 1
 " : let g:airline#extensions#tabline#left_sep = ' '
@@ -145,43 +147,43 @@ Bundle 'bling/vim-airline'
 : let g:airline_symbols.whitespace = 'Ξ'    " U+2591: ░ U+2592: ▒ ▓
 scriptencoding
 
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tomasr/molokai'
-" Bundle 'lsdr/monokai'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+" Plugin 'lsdr/monokai'
 
 " #########################################################################
 " Completion, NOTE there are conflictions between those plugins.
-" Bundle 'ervandew/supertab'
+" Plugin 'ervandew/supertab'
 
 if count(s:comppets, 'snip')                " snipmate-like
     if has('python') || has('python3')
-        " Bundle 'SirVer/ultisnips'
-        Bundle 'MarcWeber/ultisnips'
+        " Plugin 'SirVer/ultisnips'
+        Plugin 'MarcWeber/ultisnips'
         : let g:UltiSnipsJumpForwardTrigger="<tab>"
         : let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
     else
-        " Bundle 'MarcWeber/snipmate.vim'
-        Bundle 'garbas/vim-snipmate'
+        " Plugin 'MarcWeber/snipmate.vim'
+        Plugin 'garbas/vim-snipmate'
     endif
 endif
 if count(s:comppets, 'ycm')                 " YouCompleteMe
     if has('python') && executable('clang') " TODO
-        Bundle 'Valloric/YouCompleteMe'
+        Plugin 'Valloric/YouCompleteMe'
     endif
 endif
 if count(s:comppets, 'acp')                 " AutoComplPop
-    " Bundle 'L9'                  " dependence of AutoComplPop?
-    Bundle 'ms9tks/vim-autocomplpop'
+    " Plugin 'L9'                  " dependence of AutoComplPop?
+    Plugin 'ms9tks/vim-autocomplpop'
 endif
 if count(s:comppets, 'neo')                 " neocomplcache
     if has('lua')
-        Bundle 'Shougo/neocomplete.vim'
+        Plugin 'Shougo/neocomplete.vim'
         : let g:neocomplete#enable_at_startup = 1
         : let g:neocomplete#enable_smart_case = 1
         : let g:neocomplete#sources#syntax#min_keyword_length = 3
         : let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
     else
-        Bundle 'Shougo/neocomplcache.vim'
+        Plugin 'Shougo/neocomplcache.vim'
         " It makes vim much slower.
         : let g:neocomplcache_max_list = 20
         : let g:neocomplcache_disable_auto_complete = 1
@@ -200,8 +202,8 @@ if count(s:comppets, 'neo')                 " neocomplcache
         " : let g:neocomplcache_enable_camel_case_completion = 1
         " : let g:neocomplcache_enable_underbar_completion = 1
     endif
-    Bundle 'Shougo/neosnippet'
-    " Bundle 'Shougo/neosnippet-snippets'
+    Plugin 'Shougo/neosnippet'
+    " Plugin 'Shougo/neosnippet-snippets'
     : let g:neosnippet#disable_runtime_snippets = {'_': 1}
     : let g:neosnippet#enable_snipmate_compatibility = 1
     : let g:neosnippet#snippets_directory='~/.vim/addons/vim-snippets/snippets/'
@@ -220,15 +222,15 @@ if count(s:comppets, 'neo')                 " neocomplcache
                 \ : "\<TAB>"
 endif
 if count(s:comppets, 'xpt')                 " xptemplate
-    Bundle 'drmingdrmer/xptemplate'
+    Plugin 'drmingdrmer/xptemplate'
 endif
 " ##### More snippets ############################################
-Bundle 'honza/vim-snippets'
+Plugin 'honza/vim-snippets'
 
 " C-function complete using ctags.
-Bundle 'xolox/vim-misc'                  " dependence of easytags
-Bundle 'xolox/vim-shell'
-Bundle 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'                  " dependence of easytags
+Plugin 'xolox/vim-shell'
+Plugin 'xolox/vim-easytags'
 " Do NOT use HighlightTags command!! Too slow!!
 : let g:easytags_auto_highlight = 0         " Makes movement slow
 : let g:easytags_dynamic_files = 3          " I've modified easytags
@@ -247,13 +249,13 @@ ActivateAddons undotree                     " mbbill/undotree
 ActivateAddons echofunc                     " mbbill/echofunc
 : let g:EchoFuncPathMappingEnabled = 7
 : let g:EchoFuncAutoStartBalloonDeclaration = 1
-Bundle 'mbbill/code_complete'
+Plugin 'mbbill/code_complete'
 : let g:rs='<`'
 : let g:re='`>'
 : let g:completekey='<C-B>'                 " should use superTab.
 
 " C-member complete using ctags.
-Bundle 'OmniCppComplete'           " script #1520
+Plugin 'OmniCppComplete'           " script #1520
 " au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 : let OmniCpp_NamespaceSearch = 1
 : let OmniCpp_GlobalScopeSearch = 1
@@ -266,28 +268,28 @@ Bundle 'OmniCppComplete'           " script #1520
 
 " #########################################################################
 " Programing
-" Bundle 'project.tar.gz'          " don't know which is better
-Bundle 'scrooloose/syntastic'
-Bundle 'a'                         " script #31
+" Plugin 'project.tar.gz'          " don't know which is better
+Plugin 'scrooloose/syntastic'
+Plugin 'a'                         " script #31
 
-Bundle 'DoxygenToolkit'            " script #987
+Plugin 'DoxygenToolkit'            " script #987
 
-" Bundle 'scrooloose/nerdcommenter'
+" Plugin 'scrooloose/nerdcommenter'
 
 " html/js/css
-Bundle 'mattn/emmet-vim'
-Bundle 'chrisbra/color_hightlight'
+Plugin 'mattn/emmet-vim'
+Plugin 'chrisbra/color_hightlight'
 : let g:colorizer_auto_filetype="css,html,xhtml"
 : let g:colorizer_colornames=1
-" Bundle 'lilydjwg/colorizer'
-Bundle 'gregsexton/MatchTag'
+" Plugin 'lilydjwg/colorizer'
+Plugin 'gregsexton/MatchTag'
 " if has("python")
 "     ActivateAddons Valloric/MatchTagAlways  " a modified version
 " endif
-Bundle 'jsbeautify'                " script #2727
+Plugin 'jsbeautify'                " script #2727
 
 " LaTeX editing
-Bundle 'LaTeX-Suite_aka_Vim-LaTeX' " vim-latex.sf.net TODO
+Plugin 'LaTeX-Suite_aka_Vim-LaTeX' " vim-latex.sf.net TODO
 : let g:Imap_PlaceHolderStart='<`'          " compatible with snippets
 : let g:Imap_PlaceHolderEnd='`>'
 " : let g:Imap_StickyPlaceHolders=1         " don't work?

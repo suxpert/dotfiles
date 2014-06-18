@@ -3,7 +3,7 @@
 "               Sexy plugins managed by "VAM" for better vimming.
 "               Plugins are loaded separately.
 "
-"  Last Change: 2014-04-02 18:08:20
+"  Last Change: 2014-06-17 16:55:55
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -26,8 +26,10 @@ ActivateAddons unimpaired                   " tpope/vim-unimpaired
 ActivateAddons commentary                   " tpope/vim-commentary
 ActivateAddons repeat                       " tpope/vim-repeat
 ActivateAddons fugitive                     " tpope/vim-fugitive
+ActivateAddons vim-exchange                 " tommcdo/vim-exchange
 " ActivateAddons vim-gitgutter                " airblade/vim-gitgutter
 ActivateAddons github:suxpert/GitGutter
+: let g:gitgutter_avoid_cmd = 1
 ActivateAddons matchit.zip
 ActivateAddons LargeFile
 " matchparen++, there's a bug in this plugin about ruler length...

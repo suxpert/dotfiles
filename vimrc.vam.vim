@@ -2,7 +2,7 @@
 "  File Info:   LiTuX's personal vim plugin configuration file
 "               Sexy plugins managed by "VAM" for better vimming.
 "
-"  Last Change: 2014-04-11 14:14:50
+"  Last Change: 2014-06-18 10:42:58
 "
 "  ReadMe:      Please refer to the vimrc file.
 "               In this file, we use "VAM" for plugin management.
@@ -26,8 +26,10 @@ let s:addons += ['unimpaired']                  " tpope/vim-unimpaired
 let s:addons += ['commentary']                  " tpope/vim-commentary
 let s:addons += ['repeat']                      " tpope/vim-repeat
 let s:addons += ['fugitive']                    " tpope/vim-fugitive
+let s:addons += ['vim-exchange']                " tommcdo/vim-exchange
 " let s:addons += ['vim-gitgutter']               " airblade/vim-gitgutter
 let s:addons += ['github:suxpert/GitGutter']
+: let g:gitgutter_avoid_cmd = 1
 let s:addons += ['matchit.zip']
 let s:addons += ['LargeFile']
 " matchparen++, there's a bug in this plugin about ruler length...

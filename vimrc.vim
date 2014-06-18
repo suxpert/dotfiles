@@ -1,6 +1,6 @@
 " #########################################################################
 "  File Info:   LiTuX's personal vimrc file
-"  Last Change: 2014-02-25 02:37:10
+"  Last Change: 2014-06-18 10:59:09
 "
 "  ReadMe:      This is my personal vimrc for daily use, some of those
 "               configurations are still not adjusted, and MAY be changed
@@ -164,24 +164,26 @@ elseif isdirectory(expand("~/vimfiles"))
 endif
 exec "set viminfo+=n".localrtp."viminfo"
 
-let manager = "vam"    " pathogen or vundle or vam, I prefer vam
+let s:manager = "vam"    " pathogen or vundle or vam, I prefer vam
 " # Plugins: {{{
 " #########################################################################
-if manager == "vundle"
+if s:manager == "vundle"
     " TODO, auto install vundle if not exist.
     " set up vundle environment
     filetype off
-    exec 'set rtp+='.localrtp.'bundle/vundle'
-
-    call vundle#rc()
+    exec 'set rtp+='.localrtp.'bundle/Vundle.vim'
+    call vundle#begin()
 
     " plugins under vundle
-    Bundle 'gmarik/vundle'
+    Plugin 'gmarik/Vundle.vim'
     if filereadable(expand(localrtp).'vimrc.vundle.vim')
         execute "source ".localrtp.'vimrc.vundle.vim'
     endif
+
+    Helptags
+    call vundle#end()
 " #########################################################################
-elseif manager == "vam"
+elseif s:manager == "vam"
     let addon_dir = localrtp.'addons/'      " addons go here
     if !isdirectory(expand(addon_dir))
         call mkdir(expand(addon_dir))
@@ -190,19 +192,27 @@ elseif manager == "vam"
     if !isdirectory(expand(vam_dir))
         if executable('git')
             exec '!git clone https://github.com/MarcWeber/vim-addon-manager.git '.expand(vam_dir)
+            let s:vam_error = v:shell_error
         else " TODO: if failed, we should break or try another way.
+            let s:vam_error = 1
             echo 'Auto install failed, please install vam manually to '.expand(vam_dir)
         endif
+    else
+        let s:vam_error = 0
     endif
-    exec 'set rtp+='.expand(vam_dir)
-    call vam#ActivateAddons(['github:MarcWeber/vim-addon-manager'])
-    let loadPlugin = 1
-    " let loadPlugin = 0 | call vam#ActivateAddons([''])    " test plugin .
-    if loadPlugin == 1 && filereadable(expand(localrtp).'vimrc.vamsep.vim')
-        execute "source ".localrtp.'vimrc.vamsep.vim'
-    endif
+    if !s:vam_error
+        exec 'set rtp+='.expand(vam_dir)
+        let g:vim_addon_manager = {}
+        let g:vim_addon_manager.auto_install = 1
+        call vam#ActivateAddons(['github:MarcWeber/vim-addon-manager'])
+        let s:loadPlugin = 1
+        " let s:loadPlugin = 0 | call vam#ActivateAddons([''])    " test plugin .
+        if s:loadPlugin == 1 && filereadable(expand(localrtp).'vimrc.vamsep.vim')
+            execute "source ".localrtp.'vimrc.vamsep.vim'
+        endif
+    end
 " #########################################################################
-elseif manager == "pathogen"
+elseif s:manager == "pathogen"
     exec 'set rtp+='.localrtp.'pathogen'
     call pathogen#infect()
 endif
@@ -321,6 +331,8 @@ endif
 syntax on
 " color molokai
 color desert
+hi LineNr guibg=grey17
+hi SignColumn guibg=grey16
 
 if has('multi_byte_ime')
     " highlight Cursor guifg=NONE guibg=Green
